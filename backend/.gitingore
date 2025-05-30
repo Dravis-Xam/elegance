@@ -1,0 +1,17 @@
+# Environment
+.env
+
+# Node
+node_modules/
+
+# Secrets
+secret
+secret.pub
+
+# Uploads
+uploads/
+
+# Logs
+*.log
+
+dist/
