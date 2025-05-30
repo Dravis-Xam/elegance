@@ -1,0 +1,20 @@
+header {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-sm);
+    padding: 0 var(--space-md);
+}
+
+.dropdown, .cartBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: var(--space-xs);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+ 
+.cartBtn:hover, .dropdown:hover {
+    color: var(--color-primary);
+}
