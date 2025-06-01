@@ -1,12 +1,14 @@
 footer {
     position: relative;
     bottom: 0;
+    top: 100%;
     width: 100%;
     padding: var(--space-md);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-md);
+    z-index: 20;
 }
 
 /* Footer */

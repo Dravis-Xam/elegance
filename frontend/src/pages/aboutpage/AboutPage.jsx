@@ -4,6 +4,7 @@ import Header from "../homepage/components/header/Header";
 import './AboutPage.css';
 
 export default function AboutPage() {
+    document.title = "About Us  |  DAOGROW";
     return <section>
         <Header />
         <div className="aboutUsSection">

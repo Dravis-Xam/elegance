@@ -11,7 +11,7 @@ const Footer = () => {
         <footer>
             <div>
                 <div>
-                <h2>Beauty Spa</h2>
+                <h2>DAOGROW</h2>
                 <p><strong>Email: </strong>beautyspa@gmail.com</p>
                 <p><strong>Contact: </strong> 0700 000 555 / 0700 001 555</p>
                 <SocialLinks />
@@ -21,7 +21,6 @@ const Footer = () => {
                 <ul>
                     <li><a onClick={()=>navigate('/about-us')}>About us</a></li>
                     <li><a onClick={()=> navigate('/contact-us')}>Contact us</a></li>
-                    <li><a >Docs</a></li>
                     <li><a onClick={() => navigate("/privacy-policy")}>Privacy policy</a></li>
                 </ul>
                 </div>

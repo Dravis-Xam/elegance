@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import Client from '../models/client.js';
+import User from '../models/client.js';
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key_here';
@@ -20,36 +20,36 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    const existingClient = await Client.findOne({ email });
-    if (existingClient) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(409).json({ message: 'Email already registered.' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const newClient = new Client({
+    const newUser = new User({
       username,
       email,
       password: hashedPassword,
       preferredPaymentOption,
-      role: 'client',
+      role: 'customer',
     });
 
-    await newClient.save();
+    await newUser.save();
 
-    const token = jwt.sign({ id: newClient._id, role: newClient.role }, JWT_SECRET, {
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, JWT_SECRET, {
       expiresIn: '7d',
     });
 
     res.cookie('token', token, COOKIE_OPTIONS);
 
     res.status(201).json({
-      message: 'Client registered successfully',
-      client: {
-        id: newClient._id,
-        username: newClient.username,
-        email: newClient.email,
-        role: newClient.role,
+      message: 'User registered successfully',
+      User: {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        role: newUser.role,
       },
     });
   } catch (err) {
@@ -65,12 +65,12 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Email and password are required.' });
     }
 
-    const client = await Client.findOne({ email });
-    if (!client || !(await bcrypt.compare(password, client.password))) {
+    const user = await User.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid credentials.' });
     }
 
-    const token = jwt.sign({ id: client._id, role: client.role }, JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
       expiresIn: '7d',
     });
 
@@ -78,11 +78,11 @@ router.post('/login', async (req, res) => {
 
     res.json({
       message: 'Login successful',
-      client: {
-        id: client._id,
-        username: client.username,
-        email: client.email,
-        role: client.role,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
       },
     });
   } catch (err) {
@@ -101,7 +101,7 @@ router.get('/me', async (req, res) => {
     if (!token) return res.status(401).json({ message: 'Not authenticated' });
 
     const decoded = jwt.verify(token, JWT_SECRET);
-    const user = await Client.findById(decoded.id).select('-password');
+    const user = await User.findById(decoded.id).select('-password');
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     res.json({

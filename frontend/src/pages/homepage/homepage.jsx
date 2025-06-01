@@ -12,6 +12,7 @@ const Homepage = () => {
       textAlign: 'center'
     }}>
         <Header />
+        <div style={{height: '100vh', width: "100%"}}></div>
         <Footer />
         <MoveToTop />
         <small>&copy; 2025 | Beauty Spa | Terms and conditions apply.</small>

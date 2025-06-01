@@ -1,0 +1,33 @@
+.in-stock {
+  color: green;
+}
+
+.out-of-stock {
+  color: red;
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.select-btn {
+  padding: 6px 12px;
+  border: 1px solid #888;
+  background: #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.select-btn:hover {
+  background: #e0e0e0;
+}
+
+.select-btn.selected {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}

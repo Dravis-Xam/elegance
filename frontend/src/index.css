@@ -8,7 +8,7 @@
 }
 
 :root {
-  /* Base font styles */
+  
   font-family: 'Rubik', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -17,27 +17,27 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Color variables - light theme */
-  --color-primary: #ff6b98; /* pink */
-  --color-secondary: #4285f4; /* blue */
-  --color-accent: #ff4444; /* red */
-  --color-text: #2d3748; /* dark gray (almost black) */
-  --color-text-light: #4a5568; /* lighter text */
-  --color-background: #ffffff; /* white */
-  --color-surface: #f7fafc; /* light gray */
-  --color-border: #e2e8f0; /* light border */
+  
+  --color-primary: #2C5C0A; 
+  --color-secondary: #4285f4; 
+  --color-accent: #ff4444; 
+  --color-text: #2d3748; 
+  --color-text-light: #4a5568; 
+  --color-background: #ffffff; 
+  --color-surface: #f7fafc; 
+  --color-border: #e2e8f0; 
   --color-success: #48bb78;
   --color-warning: #ed8936;
   --color-error: #f56565;
 
-  /* Spacing */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
+  
+  --space-xs: 0.35rem;
+  --space-sm: 0.75rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
 
-  /* Typography */
+  
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -47,40 +47,40 @@
   --text-3xl: 1.875rem;
   --text-4xl: 2.25rem;
 
-  /* Shadows */
+  
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
-  /* Border radius */
+  
   --radius-sm: 0.125rem;
   --radius-md: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-full: 9999px;
 
-  /* Transition */
+  
   --transition-fast: 150ms;
   --transition-normal: 300ms;
   --transition-slow: 500ms;
 }
 
-/* Dark theme overrides */
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-primary: #ff8fab; /* lighter pink for better visibility */
-    --color-secondary: #64b5f6; /* lighter blue */
-    --color-accent: #ff6e6e; /* softer red */
-    --color-text: #e2e8f0; /* light gray */
-    --color-text-light: #a0aec0; /* lighter gray */
-    --color-background: #1a202c; /* dark gray */
-    --color-surface: #2d3748; /* darker surface */
-    --color-border: #4a5568; /* darker border */
+    --color-primary: #4a8c1a; 
+    --color-secondary: #64b5f6; 
+    --color-accent: #ff6e6e; 
+    --color-text: #e2e8f0; 
+    --color-text-light: #a0aec0; 
+    --color-background: #1a202c; 
+    --color-surface: #2d3748; 
+    --color-border: #4a5568; 
     --color-success: #68d391;
     --color-warning: #f6ad55;
     --color-error: #fc8181;
 
-    /* Adjust shadows for dark mode */
+    
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
@@ -88,7 +88,6 @@
   }
 }
 
-/* Base styles */
 body {
   margin: 0;
   padding: 0;
@@ -99,7 +98,7 @@ body {
   width: 100%;
 }
 
-/* Typography */
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Ubuntu', sans-serif;
   font-weight: 700;
@@ -129,7 +128,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Buttons */
+
 button {
   font-family: inherit;
   font-size: var(--text-base);
@@ -149,7 +148,9 @@ button {
 }
 
 .btn-primary:hover {
-  background-color: color-mix(in srgb, var(--color-primary), black 15%);
+  background-color: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
 }
 
 .btn-secondary {
@@ -172,7 +173,7 @@ button {
   color: white;
 }
 
-/* Utility classes */
+
 .text-primary { color: var(--color-primary); }
 .text-secondary { color: var(--color-secondary); }
 .text-accent { color: var(--color-accent); }
@@ -187,7 +188,7 @@ button {
 .bg-warning { background-color: var(--color-warning); }
 .bg-error { background-color: var(--color-error); }
 
-/* Layout */
+
 .container {
   width: 100%;
   max-width: 1400px;
@@ -195,7 +196,7 @@ button {
   padding: 0 var(--space-md);
 }
 
-/* Responsive design */
+
 @media (max-width: 768px) {
   :root {
     --text-2xl: 1.25rem;

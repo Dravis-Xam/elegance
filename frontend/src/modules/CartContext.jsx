@@ -20,7 +20,19 @@ export function CartProvider({ children }) {
     }, [cart]);
 
     const addToCart = (item) => {
-        setCart((prev) => [...prev, item]);
+        // Ensure item has required fields
+        if (
+            item.brand &&
+            item.category &&
+            Array.isArray(item.attributes) &&
+            typeof item.price === "number" &&
+            Array.isArray(item.unitAmount) &&
+            typeof item.amountInStock === "number"
+        ) {
+            setCart((prev) => [...prev, item]);
+        } else {
+            console.warn("Invalid item structure:", item);
+        }
     };
 
     const removeFromCart = (itemToRemove) => {
@@ -28,9 +40,10 @@ export function CartProvider({ children }) {
             const index = prevCart.findIndex(
                 (item) =>
                     item.brand === itemToRemove.brand &&
-                    item.build === itemToRemove.build &&
-                    item.model === itemToRemove.model &&
-                    item.price === itemToRemove.price
+                    item.category === itemToRemove.category &&
+                    item.price === itemToRemove.price &&
+                    JSON.stringify(item.attributes) === JSON.stringify(itemToRemove.attributes) &&
+                    JSON.stringify(item.unitAmount) === JSON.stringify(itemToRemove.unitAmount)
             );
 
             if (index !== -1) {

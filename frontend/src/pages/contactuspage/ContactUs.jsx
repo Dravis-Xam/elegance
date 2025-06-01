@@ -34,6 +34,9 @@ export default function ContactUs() {
   }
 };
 
+
+    document.title = "Contact Us  |  DAOGROW";
+
   return (
     <div className="contactPage">
       <Header />

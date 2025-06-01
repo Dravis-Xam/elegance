@@ -66,7 +66,6 @@ const Signup = () => {
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius-md)',
             fontFamily: 'Ancizar sans',
-            fontFamily: 'Ancizar sans'
           }}
         />
         <input
@@ -83,7 +82,6 @@ const Signup = () => {
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius-md)',
             fontFamily: 'Ancizar sans',
-            fontFamily: 'Ancizar sans'
           }}
         />
         <input
@@ -100,7 +98,6 @@ const Signup = () => {
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius-md)',
             fontFamily: 'Ancizar sans',
-            fontFamily: 'Ancizar sans'
           }}
         />
         <button type="submit" className="btn-primary" style={{ width: '100%' }}>

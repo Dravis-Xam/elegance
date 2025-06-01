@@ -7,6 +7,7 @@ import bg from '../../assets/bg/bg.png';
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   document.body.style.cssText = `
     background-image: url(${bg});
@@ -29,10 +30,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     const role = await login(formData);
-    if (role) {
-      navigate('/');
-    }
+    if (role) navigate('/');
+    setIsSubmitting(false);
   };
 
   return (

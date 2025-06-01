@@ -16,7 +16,10 @@ export const AuthProvider = ({ children }) => {
         method: "GET",
         credentials: "include",
       });
-      if (!res.ok) throw new Error("Not authenticated");
+      if (!res.ok) {
+        toast.error(data.message || "Login failed");
+        return null;
+      }
       const data = await res.json();
       const { userId, username, role, exp } = data;
       localStorage.setItem("username", username);
@@ -46,7 +49,7 @@ export const AuthProvider = ({ children }) => {
       toast.success("Login successful");
       await new Promise((res) => setTimeout(res, 100));
       await fetchUser();
-      return data.client.role;
+      return data.user?.role;
     } catch (err) {
       toast.error("Login error");
       return null;
@@ -72,7 +75,7 @@ export const AuthProvider = ({ children }) => {
       toast.success("Signup successful");
       await new Promise((res) => setTimeout(res, 100));
       await fetchUser();
-      return data.client.role;
+      return data.user?.role;
     } catch (err) {
       toast.error("Signup error");
       return null;

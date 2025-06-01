@@ -1,14 +1,16 @@
 import MoveToTop from '../homepage/components/movetotop/MoveToTop';
 import Header from '../homepage/components/header/Header';
 import './PrivacyPolicy.css';
+import Footer from '../homepage/components/footer/Footer';
 
 const PrivacyPolicy = () => {
+    document.title = "Privacy policy  |  DAOGROW";
   return (
     <div className="privacy-policy-container">
       <Header />
       <div className="privacy-policy-card">
         <h1 className="policy-title">Privacy Policy</h1>
-        <h2 className="policy-subtitle">Beauty spa</h2>
+        <h2 className="policy-subtitle">DAOGROW</h2>
 
         <div className="policy-last-updated">
           Last Updated: 2025/5/29
@@ -18,7 +20,7 @@ const PrivacyPolicy = () => {
           <section className="policy-section">
             <h2 className="section-heading">1. Introduction</h2>
             <p>
-              This Privacy Policy describes how <strong>Beauty spa</strong> ("the Site", "we", "us", or "our") collects, uses, and discloses your personal information when you:
+              This Privacy Policy describes how <strong>DAOGROW</strong> ("the Site", "we", "us", or "our") collects, uses, and discloses your personal information when you:
             </p>
             <ul>
               <li>Visit or use our website: <strong><a href='https://empirefinal-osrw.vercel.app'>empirefinal-osrw.vercel.app</a></strong> ("the Site")</li>
@@ -169,6 +171,7 @@ const PrivacyPolicy = () => {
               <li><strong>Address:</strong> Harambee Shop A2, KE</li>
             </ul>
           </section>
+          <Footer />
           <MoveToTop />
         </div>
       </div>
