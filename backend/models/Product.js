@@ -4,14 +4,20 @@ const { Schema, model } = mongoose;
 
 
 const ProductSchema = new Schema({
-    brand: {
+    id: {
+        type: String, required: true
+    },
+    name: {
         type: String,
         required: true
     },
     category: {
-        type: String, required: true
+        type: String
     },
     attributes: {
+        type: [String],
+    },
+    thumbnail: {
         type: [String],
         required: true
     },
@@ -19,9 +25,8 @@ const ProductSchema = new Schema({
         type: Number,
         required: true
     },
-    unitAmount: {
+    unitQuantity: {
         type: [String],
-        requied: true
     },
     amountInStock: {
         type: Number,
@@ -30,5 +35,5 @@ const ProductSchema = new Schema({
 })
 
 
-const Product = model('Client', ProductSchema);
+const Product = model('Products', ProductSchema);
 export default Product;

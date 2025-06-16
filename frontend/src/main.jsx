@@ -7,16 +7,19 @@ import AppRouter from './Routing.jsx';
 import { AuthProvider } from './modules/AuthContext.jsx';
 import { ThemeProvider } from './modules/ThemeContext.jsx';
 import { CartProvider } from './modules/CartContext.jsx';
+import { ProductProvider } from './modules/ProductContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <CartProvider>
-          <ThemeProvider>
-            <AppRouter />
-          </ThemeProvider>
-        </CartProvider>
+        <ProductProvider>
+          <CartProvider>
+            <ThemeProvider>
+              <AppRouter />
+            </ThemeProvider>
+          </CartProvider>
+        </ProductProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

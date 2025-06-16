@@ -52,7 +52,7 @@ header {
 
 .menuItemsContainer {
   position: absolute;
-  top: 80%;
+  top: -80%;
   left: 0;
   margin-top: var(--space-sm);
   min-width: 300px;
@@ -61,6 +61,7 @@ header {
   box-shadow: var(--shadow-lg);
   z-index: 100;
   padding: var(--space-md);
+  scale: .7;
   animation: fadeIn var(--transition-fast) ease-out;
 }
 
@@ -194,11 +195,10 @@ header {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 50%;
   width: 0;
+  left: 0;
   height: 2px; 
   background: var(--color-primary);
-  transform: translateX(-50%);
   transition: width var(--transition-fast) ease;
   transform-origin: center;
 }
@@ -263,7 +263,7 @@ header {
 }
 
 .search-input {
-  min-width: 100px;
+  min-width: 50px;
   padding: var(--space-sm) var(--space-md);
   padding-right: 40px;
   background-color: rgba(255, 255, 255, 0.2);
@@ -367,5 +367,39 @@ header {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 1190px) {
+  header {
+    position: sticky;
+    height: 100px;
+  }
+  .logo {
+    transform: translateX(-50%);
+  }
+  .toggleMenu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 100;
+    top: 150px;
+    background-color: var(--color-background);
+    border-bottom-right-radius: 20px;
+    left: -180px;
+    visibility: hidden;
+    transition: .3s ease-in-out;
+    align-items: flex-start;
+    box-shadow: var(--shadow-md);
+  }
+  .menuItemsContainer {
+    top: -150%;
+  }
+  .toggleMenu.shown {
+    visibility: visible;
+    left: -60px;
+  }
+  .cartBtn {
+    padding: 12px 16px;
   }
 }

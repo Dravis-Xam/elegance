@@ -3,7 +3,9 @@
  import { useAuth } from '../../../../modules/AuthContext';
  import {FiChevronDown, FiChevronUp, FiSearch, FiX, FiSettings} from 'react-icons/fi';
  import { FaUser } from 'react-icons/fa'
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
+import HamburgerBtn from '../HamburgerBtn/HamburgerBtn';
+import useWindowWidth from '../../../../modules/useWindowWidth';
 
 
  export default function Header() {
@@ -15,16 +17,10 @@ import { useState, useRef, useEffect } from 'react';
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const headerRef = useRef(null);
     const searchInputRef = useRef(null);
-    const [searchSuggestions, setSearchSuggestions] = useState([
-      'CeraVe Moisturizing Cream',
-      'The Ordinary Niacinamide',
-      'La Roche-Posay Sunscreen',
-      'Olaplex No. 3',
-      'Fenty Beauty Foundation'
-    ]);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [searchSuggestions, setSearchSuggestions] = useState([]);
 
-
-    const menuItems = {
+    const menuItems = useMemo(() => ({
       services: (
         <div className="menuContent">
           <h2 className="services-heading">OUR SERVICES</h2>
@@ -92,7 +88,7 @@ import { useState, useRef, useEffect } from 'react';
         </div>
       </div>
       )
-    };
+    }), []);
 
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -134,6 +130,12 @@ import { useState, useRef, useEffect } from 'react';
     const handleDropdownClick = (dropdown) => {
       setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
     };
+
+    const handleShowNav = () => {
+      showDropdown ? setShowDropdown(false) : setShowDropdown(true)
+    }
+
+    const width = useWindowWidth();
  
     return <header style={{ 
         display: 'flex',
@@ -141,7 +143,8 @@ import { useState, useRef, useEffect } from 'react';
         justifyContent: 'space-between',
         alignItems: 'center'
       }} ref={headerRef}>
-          <div className="toggleMenu" style={{ position: 'relative' }}>
+          {width <= 1190 ? <span onClick={handleShowNav}><HamburgerBtn show={showDropdown}/></span> : null}
+          <div className={`toggleMenu ${showDropdown ? "shown" : ""}`} style={{ position: 'relative' }}>
           <div 
             className={`dropdown ${activeDropdown === 'services' ? 'active' : ''}`}
             onClick={() => handleDropdownClick('services')}
@@ -226,9 +229,9 @@ import { useState, useRef, useEffect } from 'react';
             <span title="Settings" style={{padding: " 0 var(--space-md)", cursor: "pointer"}} onClick={()=>navigate('/settings')}><FiSettings/></span>
             <button 
               className="btn-secondary"
-              onClick={() => {
+              onClick={async () => {
+                await logout();
                 navigate('/login');
-                logout();
               }}
             >
               Log out
@@ -250,5 +253,5 @@ import { useState, useRef, useEffect } from 'react';
             </button>
           </div>
         )}
-      </header>
+    </header>
 }

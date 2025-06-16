@@ -139,7 +139,7 @@ button {
   transition: all var(--transition-fast);
   height: 30px;
   display: flex;
-  align-items: center;
+  align-items: center;resize: none;
 }
 
 .btn-primary {

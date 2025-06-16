@@ -14,6 +14,7 @@ import Cart from "./pages/homepage/components/cart/Cart";
 import DetailPage from "./pages/detailPage/DetailPage";
 import Profile from "./pages/profile/Profile";
 import Settings from "./pages/settings/Settings";
+import SearchPage from "./pages/searchPage/SearchPage";
 
 const AppRouter = () => {
     return (
@@ -27,6 +28,7 @@ const AppRouter = () => {
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/details" element={<DetailPage />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
