@@ -21,7 +21,7 @@ const Homepage = () => {
         <Header />
         <ProductForm 
           onCancel={handleCancelAdd}
-          isEditing={false}
+          isEditing={true}
         />
         <Footer />
         <MoveToTop />

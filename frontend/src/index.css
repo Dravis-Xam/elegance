@@ -196,6 +196,10 @@ button {
   padding: 0 var(--space-md);
 }
 
+input {
+  font-family: inherit;
+}
+
 
 @media (max-width: 768px) {
   :root {

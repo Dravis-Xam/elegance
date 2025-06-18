@@ -165,7 +165,7 @@ import useWindowWidth from '../../../../modules/useWindowWidth';
             onMouseEnter={() => setHoverDropdown('categories')}
             onMouseLeave={() => setHoverDropdown(null)}
           >
-            <span>Brands</span>
+            <span>Categories</span>
             {activeDropdown === 'categories' ? <FiChevronUp /> : <FiChevronDown />}
             {(activeDropdown === 'categories' || hoverDropdown === 'categories') && (
               <div className="menuItemsContainer wideMenu">

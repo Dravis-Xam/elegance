@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "./ToastStore";
 
 // ------------------- Context Setup -------------------
 
@@ -52,6 +53,10 @@ const findProduct = async (query) => {
 
   const updateProduct = async (productData) => {
     try {
+      if (!productData.id) {
+        console.log("No id passed: ", productData?.id)
+        return;
+      }
       const res = await axios.put(`http://localhost:5000/api/products/edit/${productData.id}`, productData);
       setProducts((prev) =>
         prev.map((p) => (p.id === res.data.id ? res.data : p))
@@ -66,6 +71,10 @@ const findProduct = async (query) => {
 
   const deleteProduct = async (id) => {
     try {
+      if (!productData.id) {
+        console.log("No id passed: ", productData?.id)
+        return;
+      }
       await axios.delete(`http://localhost:5000/api/products/delete/${id}`);
       setProducts((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
