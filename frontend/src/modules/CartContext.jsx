@@ -22,7 +22,7 @@ export function CartProvider({ children }) {
     const addToCart = (item) => {
         // Ensure item has required fields
         if (
-            item.brand &&
+            item.name &&
             item.category &&
             Array.isArray(item.attributes) &&
             typeof item.price === "number" &&

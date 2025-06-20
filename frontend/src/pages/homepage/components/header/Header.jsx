@@ -2,7 +2,7 @@
  import { useNavigate } from 'react-router-dom';
  import { useAuth } from '../../../../modules/AuthContext';
  import {FiChevronDown, FiChevronUp, FiSearch, FiX, FiSettings} from 'react-icons/fi';
- import { FaUser } from 'react-icons/fa'
+ import { FaUser, FaSignOutAlt } from 'react-icons/fa'
 import { useState, useRef, useEffect, useMemo } from 'react';
 import HamburgerBtn from '../HamburgerBtn/HamburgerBtn';
 import useWindowWidth from '../../../../modules/useWindowWidth';
@@ -228,25 +228,25 @@ import useWindowWidth from '../../../../modules/useWindowWidth';
             <span title="Profile" style={{padding: " 0 var(--space-md)", cursor: "pointer"}} onClick={()=>navigate('/profile')}><FaUser /></span>
             <span title="Settings" style={{padding: " 0 var(--space-md)", cursor: "pointer"}} onClick={()=>navigate('/settings')}><FiSettings/></span>
             <button 
-              className="btn-secondary"
+              className="btn-secondary authbtn"
               onClick={async () => {
                 await logout();
                 navigate('/login');
               }}
             >
-              Log out
+              {width <= '768px' ? <FaSignOutAlt/> : 'Log out'}
             </button>
           </div>
         ) : (
           <div style={{display: 'inline-flex', alignItems: 'center', gap: "10px"}}>
             <button 
-              className="btn-primary"
+              className="btn-primary authbtn"
               onClick={() => navigate('/login')}
             >
               Login
             </button>
             <button 
-              className="btn-outline"
+              className="btn-outline authbtn"
               onClick={() => navigate('/signup')}
             >
               Sign up

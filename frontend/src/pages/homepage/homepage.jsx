@@ -2,16 +2,10 @@ import ToastContainer from '../../utils/toasts/ToastContainer';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import MoveToTop from './components/movetotop/MoveToTop';
-import ProductForm from './components/forms/ProductForm';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '../../modules/ToastStore';
 
 const Homepage = () => {
-  const navigate = useNavigate();
-  const handleCancelAdd = () => {
-    navigate('/shop')
-    toast.success('Cancelled your submit message');
-  };
 
   return (
       <div className="container" style={{ 
@@ -19,10 +13,7 @@ const Homepage = () => {
         textAlign: 'center'
       }}>
         <Header />
-        <ProductForm 
-          onCancel={handleCancelAdd}
-          isEditing={true}
-        />
+        
         <Footer />
         <MoveToTop />
         <small>&copy; 2025 | DAOGROW | Terms and conditions apply.</small>

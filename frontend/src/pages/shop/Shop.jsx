@@ -4,7 +4,7 @@ import MoveToTop from '../homepage/components/movetotop/MoveToTop';
 import Header from '../homepage/components/header/Header';
 import Footer from '../homepage/components/footer/Footer';
 import { useProduct } from '../../modules/ProductContext';
-import ProductCard from './components/ProductCard/ProductCard';
+import Listing from './components/listing/Listing';
 
 const Shop = () => {
     const navigate = useNavigate();
@@ -15,9 +15,9 @@ const Shop = () => {
         <div>
             <Header />
             <div className="container">
-                <h2>Shop</h2>
+                <h2 style={{textAlign: 'center', display: 'flex', justifyContent:'center', alignItems: 'center'}}>Shop</h2>
                 <div className="products-container">
-                    {products.map((item, i) => <ProductCard key={i} product={item} />)}
+                    <Listing products={products}/>
                 </div>
                 <button onClick={()=>navigate("/details")}>Details</button>
                 <button onClick={()=> navigate('/')}>Home</button>
