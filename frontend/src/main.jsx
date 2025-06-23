@@ -8,17 +8,20 @@ import { AuthProvider } from './modules/AuthContext.jsx';
 import { ThemeProvider } from './modules/ThemeContext.jsx';
 import { CartProvider } from './modules/CartContext.jsx';
 import { ProductProvider } from './modules/ProductContext';
+import { CategoryProvider } from './modules/CategoryContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <ProductProvider>
-          <CartProvider>
-            <ThemeProvider>
-              <AppRouter />
-            </ThemeProvider>
-          </CartProvider>
+          <CategoryProvider>
+            <CartProvider>
+              <ThemeProvider>
+                <AppRouter />
+              </ThemeProvider>
+            </CartProvider>
+          </CategoryProvider>
         </ProductProvider>
       </AuthProvider>
     </BrowserRouter>

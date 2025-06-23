@@ -387,14 +387,22 @@ header {
     top: 150px;
     background-color: var(--color-background);
     border-bottom-right-radius: 20px;
-    left: -180px;
+    border-top-right-radius: 20px;
+    left: -200px;
     visibility: hidden;
     transition: .3s ease-in-out;
     align-items: flex-start;
     box-shadow: var(--shadow-md);
   }
+  .menuContent {
+    width: 600px;
+  }
   .menuItemsContainer {
-    top: -150%;
+    top: -280%;
+    width: 400px;
+    left: 80px;
+    background-color: transparent;
+    grid-template-columns: 1fr 1fr;
   }
   .toggleMenu.shown {
     visibility: visible;
@@ -403,10 +411,28 @@ header {
   .cartBtn {
     padding: 12px 16px;
   }
+  .service-box {
+    width: 200px;
+    height: 300px;
+  }
+  .service-list {
+    gap: var(--space-sm);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+  }
 }
 @media (max-width: 960px) {
   .search-input {
     width: 150px;
+  }
+  .btn-primary.authbtn,
+  .btn-secondary.authbtn,
+  .btn-outline.authbtn {
+    font-size: 10px;
+    display: flex;
+    flex-direction: nowrap;
   }
   
 }

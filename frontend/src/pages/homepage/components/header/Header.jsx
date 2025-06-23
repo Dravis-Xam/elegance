@@ -6,6 +6,8 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import HamburgerBtn from '../HamburgerBtn/HamburgerBtn';
 import useWindowWidth from '../../../../modules/useWindowWidth';
+import { useCategory } from '../../../../modules/CategoryContext';
+import CategoryItem from './components/categoryItem';
 
 
  export default function Header() {
@@ -19,6 +21,7 @@ import useWindowWidth from '../../../../modules/useWindowWidth';
     const searchInputRef = useRef(null);
     const [showDropdown, setShowDropdown] = useState(false);
     const [searchSuggestions, setSearchSuggestions] = useState([]);
+    const { categoryList } = useCategory();
 
     const menuItems = useMemo(() => ({
       services: (
@@ -55,36 +58,9 @@ import useWindowWidth from '../../../../modules/useWindowWidth';
       <div className="menuContent">
         <h3>Popular Categories</h3>
         <div className="menuGrid">
-          <div className="menuColumn">
-            <h4>Skincare</h4>
-            <a href="/brands/cerave">CeraVe</a>
-            <a href="/brands/ordinary">The Ordinary</a>
-            <a href="/brands/laroche">La Roche-Posay</a>
-          </div>
-          <div className="menuColumn">
-            <h4>Haircare</h4>
-            <a href="/brands/olaplex">Olaplex</a>
-            <a href="/brands/sheamoisture">SheaMoisture</a>
-            <a href="/brands/mielle">Mielle Organics</a>
-          </div>
-          <div className="menuColumn">
-            <h4>Makeup</h4>
-            <a href="/brands/fenty">Fenty Beauty</a>
-            <a href="/brands/mac">MAC</a>
-            <a href="/brands/nars">NARS</a>
-          </div>
-          <div className="menuColumn">
-            <h4>Fragrances</h4>
-            <a href="/brands/chanel">Chanel</a>
-            <a href="/brands/zara">Zara</a>
-            <a href="/brands/arabian-oud">Arabian Oud</a>
-          </div>
-          <div className="menuColumn">
-            <h4>Body Care</h4>
-            <a href="/brands/treehut">Tree Hut</a>
-            <a href="/brands/nivea">NIVEA</a>
-            <a href="/brands/bodyshop">The Body Shop</a>
-          </div>
+          {categoryList.map(
+            (category, index) => <CategoryItem key={index} category={category} />
+          )}
         </div>
       </div>
       )
@@ -225,8 +201,8 @@ import useWindowWidth from '../../../../modules/useWindowWidth';
         </div>
         {user ? (
           <div style={{display: 'inline-flex', alignItems: 'center', gap: "10px"}}>
-            <span title="Profile" style={{padding: " 0 var(--space-md)", cursor: "pointer"}} onClick={()=>navigate('/profile')}><FaUser /></span>
-            <span title="Settings" style={{padding: " 0 var(--space-md)", cursor: "pointer"}} onClick={()=>navigate('/settings')}><FiSettings/></span>
+            <span title="Profile" style={{padding: " 0 var(--space-sm)", cursor: "pointer"}} onClick={()=>navigate('/profile')}><FaUser /></span>
+            <span title="Settings" style={{padding: " 0 var(--space-sm)", cursor: "pointer"}} onClick={()=>navigate('/settings')}><FiSettings/></span>
             <button 
               className="btn-secondary authbtn"
               onClick={async () => {
