@@ -9,20 +9,23 @@ import { ThemeProvider } from './modules/ThemeContext.jsx';
 import { CartProvider } from './modules/CartContext.jsx';
 import { ProductProvider } from './modules/ProductContext';
 import { CategoryProvider } from './modules/CategoryContext.jsx';
+import { TestimonialProvider } from './modules/TestimonialContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <ProductProvider>
-          <CategoryProvider>
-            <CartProvider>
-              <ThemeProvider>
-                <AppRouter />
-              </ThemeProvider>
-            </CartProvider>
-          </CategoryProvider>
-        </ProductProvider>
+        <TestimonialProvider>
+          <ProductProvider>
+            <CategoryProvider>
+              <CartProvider>
+                <ThemeProvider>
+                  <AppRouter />
+                </ThemeProvider>
+              </CartProvider>
+            </CategoryProvider>
+          </ProductProvider>
+        </TestimonialProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

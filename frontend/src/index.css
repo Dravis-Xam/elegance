@@ -19,12 +19,13 @@
 
   
   --color-primary: #2C5C0A; 
+  --color-primary-rgb: rgb(44, 92, 10); 
   --color-secondary: #4285f4; 
   --color-accent: #ff4444; 
   --color-text: #2d3748; 
   --color-text-light: #4a5568; 
   --color-background: #ffffff; 
-  --color-surface: #f7fafc; 
+  --color-surface: rgb(247, 250, 252); 
   --color-border: #e2e8f0; 
   --color-success: #48bb78;
   --color-warning: #ed8936;
@@ -71,6 +72,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: #4a8c1a; 
+    --color-primary-rgb: rgb(74, 140, 26); 
     --color-secondary: #64b5f6; 
     --color-accent: #ff6e6e; 
     --color-text: #e2e8f0; 

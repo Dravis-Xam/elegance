@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ToastContainer from '../../utils/toasts/ToastContainer';
-import TopCard from '../homepage/components/TopCard/TopCard';
 import { useProduct } from '../../modules/ProductContext';
+import Listing from '../shop/components/listing/Listing';
+import Header from '../homepage/components/header/Header';
+import Footer from '../homepage/components/footer/Footer';
+import './SearchPage.css';
+
 
 const SearchPage = () => {
     const [searchParams] = useSearchParams();
@@ -22,13 +26,17 @@ const SearchPage = () => {
 
     return (
         <div>
-            <h2>Search Results for: {query}</h2>
-            {results && results.length > 0 ? (
-                <TopCard item={results[0]} />
-            ) : (
-                <p>No results found.</p>
-            )}
+            <Header></Header>
+            <div className="search-content">
+                <h2>Search Results for: {query}</h2>
+                {results && results.length > 0 ? (
+                    <Listing products={results}/>
+                ) : (
+                    <p>No results found.</p>
+                )}
+            </div>
             <ToastContainer />
+            <Footer />
         </div>
     );
 };

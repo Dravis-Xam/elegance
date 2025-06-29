@@ -1,0 +1,6 @@
+.profile-content {
+    width: 90%;
+    padding: var(--space-xl);
+    position: relative;
+    margin-top: 50px;
+}

@@ -1,0 +1,165 @@
+.contact-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100vw;
+    height: 50vh;
+    margin-top: 50px;
+}
+
+.cs-icons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-icon-1, .cs-icon-2, .cs-icon-3, .cs-icon-4, .cs-icon-5 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+}
+
+.cs-icon-1.start {
+  animation: scatter1 3s ease forwards;
+}
+.cs-icon-2.start {
+  animation: scatter2 3s ease forwards;
+}
+.cs-icon-3.start {
+  animation: scatter3 3s ease forwards;
+}
+.cs-icon-4.start {
+  animation: scatter4 3s ease forwards;
+}
+.cs-icon-5.start {
+  animation: scatter5 3s ease forwards;
+}
+
+.cs-icon-1.stop,
+.cs-icon-2.stop,
+.cs-icon-3.stop,
+.cs-icon-4.stop,
+.cs-icon-5.stop {
+  animation: none;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+
+@keyframes scatter1 {
+    0% {
+        top: 0;
+        left: 0;
+    }
+    33% {
+        top: 100%;
+        left: 100%;
+    }
+    67% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        top: 50%;
+        transform: translateY(-50px);
+        left: 10%;
+    }
+}
+
+@keyframes scatter2 {
+    0% {
+        top: 100%;
+        left: 0;
+    }
+    33% {
+        top: 0;
+        left: 100%;
+    }
+    67% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        top: 50%;
+        transform: translateY(-50px);
+        left: 30%;
+    }
+}
+
+@keyframes scatter3 {
+    0% {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 100%;
+    }
+    33% {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+    }
+    
+    67% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        top: 50%;
+        transform: translateY(-50px);
+        left: 50%;
+    }
+}
+
+@keyframes scatter4 {
+    0% {
+        top: 100%;
+        left: 100%;
+    }
+    33% {
+        top: 0;
+        left: 0;
+    }
+    
+    67% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        top: 50%;
+        transform: translateY(-50px);
+        left: 70%;
+    }
+}
+
+@keyframes scatter5 {
+    0% {
+        top: 0;
+        left: 100%;
+    }
+    33% {
+        top: 100%;
+        left: 0;
+    }
+    
+    67% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        top: 50%;
+        transform: translateY(-50px);
+        left: 90%;
+    }
+}
+

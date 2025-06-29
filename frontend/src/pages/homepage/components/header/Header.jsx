@@ -1,233 +1,249 @@
- import './Header.css';
- import { useNavigate } from 'react-router-dom';
- import { useAuth } from '../../../../modules/AuthContext';
- import {FiChevronDown, FiChevronUp, FiSearch, FiX, FiSettings} from 'react-icons/fi';
- import { FaUser, FaSignOutAlt } from 'react-icons/fa'
+import './Header.css';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../../../modules/AuthContext';
+import { FiChevronDown, FiChevronLeft, FiChevronRight, FiSearch, FiSettings, FiX } from 'react-icons/fi';
+import { FaUser, FaSignOutAlt } from 'react-icons/fa';
 import { useState, useRef, useEffect, useMemo } from 'react';
-import HamburgerBtn from '../HamburgerBtn/HamburgerBtn';
 import useWindowWidth from '../../../../modules/useWindowWidth';
 import { useCategory } from '../../../../modules/CategoryContext';
 import CategoryItem from './components/categoryItem';
+export default function Header() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const { categoryList } = useCategory();
+  const width = useWindowWidth();
+  const mode = localStorage.getItem('mode') || 'light';
+  const currentPAGE = useLocation().pathname;
 
+  const headerRef = useRef(null);
+  const searchRef = useRef(null);
+  const searchBtnRef = useRef(null);
+  const navPartRef = useRef(null);
+  const rightPartRef = useRef(null);
 
- export default function Header() {
-    const navigate = useNavigate();
-    const { user, logout } = useAuth();
-    const [activeDropdown, setActiveDropdown] = useState(null);
-    const [hoverDropdown, setHoverDropdown] = useState(null);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [isSearchFocused, setIsSearchFocused] = useState(false);
-    const headerRef = useRef(null);
-    const searchInputRef = useRef(null);
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [searchSuggestions, setSearchSuggestions] = useState([]);
-    const { categoryList } = useCategory();
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
 
-    const menuItems = useMemo(() => ({
-      services: (
-        <div className="menuContent">
-          <h2 className="services-heading">OUR SERVICES</h2>
-          <div className="service-list">
-            <div className="service-box">
-              <h3>Training</h3>
-              <p>Training SPA Staff/Employees, ensuring a positive and excellent experience</p>
-              <button className='btn-primary' style={{margin: '10px auto'}}>Enrol now</button>
+  const menuItems = useMemo(() => ({
+    services: (
+      <div className="menuContent" style={{ backgroundColor: `rgba( 0, ${currentPAGE === '/' ? '0' : '255'}, 0, 0.3)` }}>
+        <div className="service-list">
+          {[
+            {
+              title: 'Training',
+              desc: 'Training SPA Staff/Employees, ensuring a positive and excellent experience',
+              label: 'Enrol now',
+            },
+            {
+              title: 'Beauty Workshops',
+              desc: 'Covering the essentials of skincare routines, skin types, and product selection',
+              label: 'View more',
+            },
+            {
+              title: 'Massage Therapy',
+              desc: 'Deep Tissue, Sweedish, Distress, Body Scrub, Facial, Manicure, Pedicure',
+              label: 'Schedule',
+            },
+            {
+              title: 'Mobile Spa',
+              desc: 'We provide convenience for individuals who prefer spa services by visiting where they are',
+              label: 'Schedule',
+            },
+          ].map((service, i) => (
+            <div key={i} className="service-box">
+              <h3>{service.title}</h3>
+              <p>{service.desc}</p>
+              <button className="btn-primary" style={{ margin: '10px auto' }}>{service.label}</button>
             </div>
-
-            <div className="service-box">
-              <h3>Beauty Workshops</h3>
-              <p>Covering the essentials of skincare routines, skin types, and product selection</p>
-              <button className='btn-primary' style={{margin: '10px auto'}}>View more</button>
-            </div>
-
-            <div className="service-box">
-              <h3>Massage Therapy</h3>
-              <p>Deep Tissue, Sweedish, Distress, Body Scrub, Facial, Manicure, Pedicure</p>
-              <button className='btn-primary' style={{margin: '10px auto'}}>Schedule</button>
-            </div>
-
-            <div className="service-box">
-              <h3>Mobile Spa</h3>
-              <p>We provide convenience for individuals who prefer spa services by visiting where they are</p>
-              <button className='btn-primary' style={{margin: '10px auto'}}>Schedule</button>
-            </div>
-          </div>
-        </div>
-      ),
-      categories: (
-      <div className="menuContent">
-        <h3>Popular Categories</h3>
-        <div className="menuGrid">
-          {categoryList.map(
-            (category, index) => <CategoryItem key={index} category={category} />
-          )}
+          ))}
         </div>
       </div>
-      )
-    }), []);
+    ),
+    categories: (
+      <div className="menuContent" style={{ backgroundColor: `rgba( 0, ${currentPAGE === '/' ? '0' : '255'}, 0, 0.3)` }}>
+        <div className="category-list">
+          {categoryList.map((category, index) => (
+            <CategoryItem key={index} category={category} />
+          ))}
+        </div>
+      </div>
+    )
+  }), [categoryList, currentPAGE]);
 
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (headerRef.current && !headerRef.current.contains(event.target)) {
-          setActiveDropdown(null);
-          setIsSearchFocused(false);
+  useEffect(() => {
+    if (headerRef.current) headerRef.current.style.width = '90%';
+    if (width > 768) {
+      [searchBtnRef, navPartRef, rightPartRef].forEach(ref => {
+        if (ref.current) {
+          ref.current.style.transition = 'width 0.3s ease-in-out';
+          ref.current.style.overflow = 'hidden';
+          ref.current.style.display = 'flex';
         }
-      };
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+      })
+    } else {
+      [searchBtnRef, rightPartRef].forEach(ref => {
+        if (ref.current) {
+          ref.current.style.transition = 'width 0.3s ease-in-out';
+          ref.current.style.overflow = 'hidden';
+          ref.current.style.display = 'none';
+        }
+      });
+      if (navPartRef.current) {
+        navPartRef.current.style.display = 'flex';
+        navPartRef.current.style.width = '100%';
+      }
+    }
+    const updateHeaderState = (shrink) => {
+      const newWidth = width > 768 ? (shrink ? '500px' : '90%') : (shrink ? '50%' : '90%');
+      const newDisplay = shrink ? 'none' : 'flex';
 
-    const handleSearch = (e) => {
-      e.preventDefault();
-      if (searchQuery.trim()) {
-        navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-        setSearchQuery('');
-        setIsSearchFocused(false);
+      if (headerRef.current) headerRef.current.style.width = newWidth;
+
+      [searchBtnRef, navPartRef, rightPartRef].forEach(ref => {
+        if (ref.current) ref.current.style.display = newDisplay;
+      });
+    };
+
+    const handleMouseOver = (e) => {
+      if (!e.relatedTarget || (headerRef.current && !headerRef.current.contains(e.relatedTarget))) {
+        updateHeaderState(false);
       }
     };
 
-    const handleSearchChange = (e) => {
-      setSearchQuery(e.target.value);
-      // Here you would typically fetch search suggestions from an API
-      // For now we're using the static list
+    const handleMouseOut = (e) => {
+      if (!headerRef.current.contains(e.relatedTarget)) {
+        if (window.scrollY <= 50) updateHeaderState(true);
+      }
     };
 
-    const handleSuggestionClick = (suggestion) => {
-      setSearchQuery(suggestion);
-      navigate(`/search?q=${encodeURIComponent(suggestion)}`);
-      setIsSearchFocused(false);
+    const handleScroll = () => {
+      if (window.scrollY > 50) updateHeaderState(true);
+      else updateHeaderState(false);
     };
 
-    const clearSearch = () => {
-      setSearchQuery('');
-      searchInputRef.current.focus();
-    };
-
-    const handleDropdownClick = (dropdown) => {
-      setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
-    };
-
-    const handleShowNav = () => {
-      showDropdown ? setShowDropdown(false) : setShowDropdown(true)
+    const headerEl = headerRef.current;
+    if (headerEl) {
+      headerEl.addEventListener('mouseover', handleMouseOver);
+      headerEl.addEventListener('mouseout', handleMouseOut);
     }
+    window.addEventListener('scroll', handleScroll);
 
-    const width = useWindowWidth();
- 
-    return <header style={{ 
-        display: 'flex',
-        gap: 'var(--space-md)',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }} ref={headerRef}>
-          {width <= 1190 ? <span onClick={handleShowNav}><HamburgerBtn show={showDropdown}/></span> : null}
-          <div className={`toggleMenu ${showDropdown ? "shown" : ""}`} style={{ position: 'relative' }}>
-          <div 
-            className={`dropdown ${activeDropdown === 'services' ? 'active' : ''}`}
-            onClick={() => handleDropdownClick('services')}
-            onMouseEnter={() => setHoverDropdown('services')}
-            onMouseLeave={() => setHoverDropdown(null)}
-          >
-            <span>Services</span>
-            <FiChevronDown />
-            {(activeDropdown === 'services' || hoverDropdown === 'services') && (
-              <div className="menuItemsContainer">
-                {menuItems.services}
-              </div>
-            )}
-          </div>
-          <div 
-            className={`dropdown ${activeDropdown === 'categories' ? 'active' : ''}`}
-            onClick={() => handleDropdownClick('categories')}
-            onMouseEnter={() => setHoverDropdown('categories')}
-            onMouseLeave={() => setHoverDropdown(null)}
-          >
-            <span>Categories</span>
-            {activeDropdown === 'categories' ? <FiChevronUp /> : <FiChevronDown />}
-            {(activeDropdown === 'categories' || hoverDropdown === 'categories') && (
-              <div className="menuItemsContainer wideMenu">
-                {menuItems.categories}
-              </div>
-            )}
-          </div>
-          <span className="dropdown" onClick={()=>navigate('/shop')}>Shop</span>
-          <span className='cartBtn' onClick={()=>navigate('/cart')}>Cart</span>
-        </div>
-        <h1 className="text-primary logo" onClick={() => navigate('/')}>DAOGROW</h1>
-        <div className={`search-container ${isSearchFocused ? 'focused' : ''}`}>
-          <form onSubmit={handleSearch} className="search-form">
-            <div className="search-input-wrapper">
-              <input
-                type="text"
-                ref={searchInputRef}
-                value={searchQuery}
-                onChange={handleSearchChange}
-                onFocus={() => setIsSearchFocused(true)}
-                placeholder="Search products, brands..."
-                aria-label="Search products"
-                className="search-input"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={clearSearch}
-                  className="search-clear"
-                  aria-label="Clear search"
-                >
-                  <FiX />
-                </button>
-              )}
-            </div>
-            <button type="submit" className="search-button" aria-label="Submit search" title='Search'>
-              <FiSearch />
-            </button>
-          </form>
+    return () => {
+      if (headerEl) {
+        headerEl.removeEventListener('mouseover', handleMouseOver);
+        headerEl.removeEventListener('mouseout', handleMouseOut);
+      }
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [width]);
 
-          {isSearchFocused && searchSuggestions.length > 0 && (
-            <div className="search-suggestions">
-              <ul>
-                {searchSuggestions
-                  .filter(suggestion =>
-                    suggestion.toLowerCase().includes(searchQuery.toLowerCase())
-                  )
-                  .slice(0, 5)
-                  .map((suggestion, index) => (
-                    <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                      {suggestion}
-                    </li>
-                  ))}
-              </ul>
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+        setIsSearchFocused(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutsideSearch = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSearch(false);
+        setIsSearchFocused(false);
+        setSearchQuery('');
+        setSearchSuggestions([]);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutsideSearch);
+    return () => document.removeEventListener('mousedown', handleClickOutsideSearch);
+  }, []);
+
+  const handleDropdownClick = (dropdown) => {
+    setActiveDropdown(prev => (prev === dropdown ? null : dropdown));
+    setShowDropdown(true);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  const handleShowNav = () => setShowDropdown(prev => !prev);
+
+  return (
+    <header className="header" ref={headerRef} style={{ backgroundColor: `rgba( 0, ${currentPAGE === '/' ? '0' : '255'}, 0, 0.3)` }}>
+      {/* Logo */}
+      <div className="header-part title-part">
+        <div className="page-title">DAOGROW</div>
+      </div>
+
+      {/* Navigation */}
+      <div className="header-part nav-part" ref={navPartRef}>
+        {width >= 768 ? (
+          <>
+            <div className="m-nav">
+              <span className="nav-link"><Link to="/shop">Shop</Link></span>
+              <span className="nav-link"><Link to="/cart">Cart</Link></span>
+              <span className="nav-link" onClick={() => handleDropdownClick('categories')}>
+                Categories <FiChevronDown className={`dropdown-icon ${activeDropdown === 'categories' ? 'active' : ''}`} />
+              </span>
+              <span className="nav-link" onClick={() => handleDropdownClick('services')}>
+                Services <FiChevronDown className={`dropdown-icon ${activeDropdown === 'services' ? 'active' : ''}`} />
+              </span>
             </div>
-          )}
-        </div>
-        {user ? (
-          <div style={{display: 'inline-flex', alignItems: 'center', gap: "10px"}}>
-            <span title="Profile" style={{padding: " 0 var(--space-sm)", cursor: "pointer"}} onClick={()=>navigate('/profile')}><FaUser /></span>
-            <span title="Settings" style={{padding: " 0 var(--space-sm)", cursor: "pointer"}} onClick={()=>navigate('/settings')}><FiSettings/></span>
-            <button 
-              className="btn-secondary authbtn"
-              onClick={async () => {
-                await logout();
-                navigate('/login');
-              }}
-            >
-              {width <= '768px' ? <FaSignOutAlt/> : 'Log out'}
-            </button>
-          </div>
+            <div className="toggle-menu">
+              {activeDropdown && menuItems[activeDropdown]}
+            </div>
+          </>
         ) : (
-          <div style={{display: 'inline-flex', alignItems: 'center', gap: "10px"}}>
-            <button 
-              className="btn-primary authbtn"
-              onClick={() => navigate('/login')}
-            >
-              Login
-            </button>
-            <button 
-              className="btn-outline authbtn"
-              onClick={() => navigate('/signup')}
-            >
-              Sign up
-            </button>
+          <div className="c-sidebar">
+            <div className={`c-show-nav-btn ${showDropdown ? 'active' : ''}`} onClick={handleShowNav}><FiChevronRight/></div>
+            {showDropdown && (
+              <div className={`c-sidebar-content ${showDropdown ? 'active' : ''}`}>
+                <span className="nav-link" onClick={() => navigate('/')}>Home</span>
+                <span className="nav-link" onClick={() => navigate('/shop')}>Shop</span>
+                <span className="nav-link" onClick={() => navigate('/cart')}>Cart</span>
+                <span className="nav-link" onClick={() => handleDropdownClick('categories')}>
+                  Categories <FiChevronDown className={`dropdown-icon ${activeDropdown === 'categories' ? 'active' : ''}`} />
+                </span>
+                <span className="nav-link" onClick={() => handleDropdownClick('services')}>
+                  Services <FiChevronDown className={`dropdown-icon ${activeDropdown === 'services' ? 'active' : ''}`} />
+                </span>
+                {activeDropdown && menuItems[activeDropdown]}
+              </div>
+            )}
           </div>
         )}
+      </div>
+
+      {/* Auth Buttons */}
+      <div className="header-part" ref={rightPartRef}>
+        {user ? (
+          <>
+            <span className="user" onClick={() => navigate('/profile')}><FaUser /></span>
+            <span className="settings" onClick={() => navigate('/settings')}><FiSettings /></span>
+            <span className="log-out" onClick={handleLogout}>
+              {width <= 768 ? <FaSignOutAlt /> : 'Log out'}
+            </span>
+          </>
+        ) : (
+          <>
+            <span className="log-in" onClick={() => navigate('/login')}>Log in</span>
+            <span className="sign-up" onClick={() => navigate('/signup')}>Sign up</span>
+          </>
+        )}
+      </div>
     </header>
+  );
 }
