@@ -45,7 +45,7 @@
 }
 
 .hero-content p {
-    color: var(--color-surface);
+    color: var(--color-text-light);
 }
 
 .hero-section .page-nav {

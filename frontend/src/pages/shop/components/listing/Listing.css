@@ -63,6 +63,13 @@
     margin-right: 4px;
 }
 
+@media (max-width: 950px) {
+    .listing-card {
+        flex: 0 0 44%;
+        width: 100%;
+    }
+}
+
 @media (max-width: 768px) {
     .listing-area {
         flex-direction: column;

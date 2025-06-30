@@ -1,0 +1,14 @@
+.notifications-content {
+    padding: var(--space-lg);
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+}
+
+.notifications-content h2 {
+    margin-bottom: 15px;
+}

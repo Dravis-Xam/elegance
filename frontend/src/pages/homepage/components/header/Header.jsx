@@ -2,7 +2,7 @@ import './Header.css';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../../modules/AuthContext';
 import { FiChevronDown, FiChevronLeft, FiChevronRight, FiSearch, FiSettings, FiX } from 'react-icons/fi';
-import { FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaSignOutAlt, FaBell, FaBellSlash } from 'react-icons/fa';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import useWindowWidth from '../../../../modules/useWindowWidth';
 import { useCategory } from '../../../../modules/CategoryContext';
@@ -185,7 +185,7 @@ export default function Header() {
     <header className="header" ref={headerRef} style={{ backgroundColor: `rgba( 0, ${currentPAGE === '/' ? '0' : '255'}, 0, 0.3)` }}>
       {/* Logo */}
       <div className="header-part title-part">
-        <div className="page-title">DAOGROW</div>
+        <div className="page-title" onClick={()=>navigate('/')}>DAOGROW</div>
       </div>
 
       {/* Navigation */}
@@ -232,7 +232,7 @@ export default function Header() {
         {user ? (
           <>
             <span className="user" onClick={() => navigate('/profile')}><FaUser /></span>
-            <span className="settings" onClick={() => navigate('/settings')}><FiSettings /></span>
+            <span className="notifications" onClick={() => navigate('/notifications')}><FaBell /></span>
             <span className="log-out" onClick={handleLogout}>
               {width <= 768 ? <FaSignOutAlt /> : 'Log out'}
             </span>

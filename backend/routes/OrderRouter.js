@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 import Order from '../models/Order.js';
 import { v4 as uuidv4 } from 'uuid';
 import pushUSSD from '../helpers/payment.js';
+import { authenticateToken } from '../middleware/auth.js';
+import { routeControl } from '../middleware/routeControl.js';
+
+//for maintenance mode, use routeControl as routeControl('/schedule')
 
 const router = express.Router();
 
@@ -54,10 +58,10 @@ router.get('/search', async (req, res) => {
 
 // @desc    Create an Order
 // @route   POST /api/orders/add
-router.post('/add', async (req, res) => {
+router.post('/add', authenticateToken, async (req, res) => {
   try {
-    const { username, status, productIds, amount, address } = req.body;
-
+    const { status, productIds, amount, address } = req.body;
+    const { username } = req.user.username;
     const newOrder = new Order({
       orderId: uuidv4(),
       username,
@@ -72,6 +76,9 @@ router.post('/add', async (req, res) => {
     );
 
     const createdOrder = await newOrder.save();
+    
+    req.notify('Purchase', {metadata: createdOrder });
+
     res.status(201).json([createdOrder, results]);
   } catch (err) {
     console.error('Error creating order:', err);

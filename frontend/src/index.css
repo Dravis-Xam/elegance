@@ -68,28 +68,26 @@
   --transition-slow: 500ms;
 }
 
+[data-theme="dark"] {
+  --color-primary: #4a8c1a; 
+  --color-primary-rgb: rgb(74, 140, 26); 
+  --color-secondary: #64b5f6; 
+  --color-accent: #ff6e6e; 
+  --color-text: #e2e8f0; 
+  --color-text-light: #a0aec0; 
+  --color-background: #1a202c; 
+  --color-surface: #2d3748; 
+  --color-border: #4a5568; 
+  --color-success: #68d391;
+  --color-warning: #f6ad55;
+  --color-error: #fc8181;
+  --color-badge: #626670;
+  --color-badge-sc: #45495e;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-primary: #4a8c1a; 
-    --color-primary-rgb: rgb(74, 140, 26); 
-    --color-secondary: #64b5f6; 
-    --color-accent: #ff6e6e; 
-    --color-text: #e2e8f0; 
-    --color-text-light: #a0aec0; 
-    --color-background: #1a202c; 
-    --color-surface: #2d3748; 
-    --color-border: #4a5568; 
-    --color-success: #68d391;
-    --color-warning: #f6ad55;
-    --color-error: #fc8181;
-
-    
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-  }
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -157,7 +155,7 @@ button {
 }
 
 .btn-secondary {
-  background-color: var(--color-text);
+  background-color: var(--color-accent);
   color: white;
 }
 

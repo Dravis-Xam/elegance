@@ -18,15 +18,18 @@ export const ThemeProvider = ({ children }) => {
   }, [username]);
 
   useEffect(() => {
-    document.body.className = theme;
+    document.documentElement.setAttribute('data-theme', theme);
     if (username) {
       localStorage.setItem(`${username}-theme`, theme);
     }
   }, [theme, username]);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
-    toast.success(`${theme} enabled`)
+    setTheme(prev => {
+      const newTheme = prev === 'dark' ? 'light' : 'dark';
+      toast.success(`${newTheme} mode enabled`);
+      return newTheme;
+    });
   };
 
   return (

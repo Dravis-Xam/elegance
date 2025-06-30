@@ -3,4 +3,202 @@
     padding: var(--space-xl);
     position: relative;
     margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-flow: row wrap;
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+}
+
+.profile-details, .profile-input-grp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-md);
+    flex-direction: column;
+    position: relative;
+}
+
+.profile-details > span, .profile-input, .m-input-grp > input {
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--color-surface);
+    width: 250px;
+    border-radius: var(--radius-md);
+    height: 50px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    border: 0;
+    outline: none;
+    display: inline-flex;
+}
+
+.p-save-btn, .p-cancel-btn {
+    position: absolute;
+}
+
+.p-save-btn {
+    bottom: -50px;
+    right: 120px;
+}
+
+.p-cancel-btn {
+    bottom: -50px;
+    right: 10px;
+}
+
+.profile-root {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.profile-image {
+    border: .3px solid var(--color-border);
+    height: 100px;
+    width: 100px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+}
+
+.profile-nav {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-direction: column;
+}
+
+.profile-nav > span {
+    cursor: default;
+}
+
+.profile-nav > button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.payment-options-cont, .theme-switch-cont {
+    padding: var(---space-md) var(---space-md);
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    border-radius: var(--radius-lg);
+    gap: var(--space-md);
+    box-shadow: var(--shadow);
+    height: 240px;
+    width: 40vw;
+    margin-bottom: 10px;
+    max-height: fit-content;
+}
+
+.options {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: var(---space-md);
+    min-height: 50px;
+}
+
+.options > button {
+    scale: .8;
+}
+
+.o-save-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 40px;
+  background: var(--color-surface);
+  border-radius: var(--radius-full);
+  position: relative;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  outline: none;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  font-family: inherit;
+  font-size: var(--text-sm);
+}
+
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--color-background);
+  border-radius: var(--radius-full);
+  position: absolute;
+  left: var(--space-xs);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .circle {
+  left: calc(100% - 36px);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.text {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  margin-left: 40px;
+  color: var(--color-text);
+  transition: color var(--transition-normal);
+}
+
+[data-theme="dark"] .text {
+  margin-left: 0;
+  margin-right: 40px;
+  color: var(--color-text);
+}
+
+/* Icon colors */
+.circle svg {
+  transition: all var(--transition-normal);
+  width: 16px;
+  height: 16px;
+}
+
+[data-theme="dark"] .circle svg {
+  color: var(--color-warning); /* Sun icon color in dark mode */
+}
+
+[data-theme="light"] .circle svg {
+  color: var(--color-primary); /* Moon icon color in light mode */
+}
+
+/* Hover effects */
+.toggle-btn:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow);
+  border-color: var(--color-primary);
+}
+
+/* Focus state for accessibility */
+.toggle-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }

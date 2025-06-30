@@ -12,8 +12,9 @@ import PrivacyPolicy from "./pages/privacypolicy/PrivacyPolicy";
 import Shop from "./pages/shop/Shop";
 import Cart from "./pages/homepage/components/cart/Cart";
 import Profile from "./pages/profile/Profile";
-import Settings from "./pages/settings/Settings";
 import SearchPage from "./pages/searchPage/SearchPage";
+import Notifications from "./pages/Notifications/Notifications";
+import Checkout from "./pages/checkout/Checkout";
 
 const AppRouter = () => {
     return (
@@ -28,8 +29,9 @@ const AppRouter = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/notifications" element={<Notifications />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="*" element={<PageNotFound />} />
         </Routes>
     );

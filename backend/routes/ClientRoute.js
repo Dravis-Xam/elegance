@@ -129,6 +129,8 @@ router.put('/change-creds', authenticateToken, async (req, res) => {
       { new: true } // return the updated user
     );
     if (!user) return res.status(404).json({ message: 'User not found' });
+
+    req.notify('Credentials change');
     return res.json({ user });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong', error: err.message });
@@ -170,6 +172,7 @@ router.post('/reset-password', authenticateToken, async (req, res) => {
   const { email, newPassword } = req.body;
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   await User.findOneAndUpdate({ email }, { password: hashedPassword });
+  req.notify('Password change');
   return res.json({ message: 'Password reset successful' });
 });
 
@@ -178,6 +181,7 @@ router.put('/save-photo', authenticateToken, async (req, res) => {
   try {
     const { photo } = req.body;
     const user = await User.findByIdAndUpdate(req.user.id, { photo }, { new: true });
+    req.notify('Profile photo');
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: 'Failed to update photo' });

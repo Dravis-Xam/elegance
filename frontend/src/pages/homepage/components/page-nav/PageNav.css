@@ -54,18 +54,18 @@
     align-items: center;
     justify-content: center;
     z-index: 999;
-  top: -50%;
-  left: -750%;
+    top: -100%;
+    left: -2000%;
 }
 
 .search-form {
   position: absolute;
   width: 400px;
-  height: 90vh;
+  height: 70vh;
   border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.945);
     backdrop-filter: blur(6px);
-  scale: 1.3;
+  scale: 1.1;
 }
 .search-input {
   width: 100%;
@@ -110,5 +110,9 @@
         transform: scale(0.5) translateY(-100px);
         right: var(--space-sm);
     }
-    
+
+  .search-input-container > .outer {
+    top: -50%;
+    left: -750%;
+  }
 }

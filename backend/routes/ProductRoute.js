@@ -85,6 +85,10 @@ router.post('/add', async (req, res) => {
     });
 
     const createdProduct = await product.save();
+
+    
+    req.notify('New product', {metadata: createdProduct});
+
     res.status(201).json(createdProduct);
   } catch (err) {
     console.error('Error creating product:', err);

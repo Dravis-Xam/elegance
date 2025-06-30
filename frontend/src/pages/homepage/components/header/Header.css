@@ -45,8 +45,12 @@ header {
   gap: var(--space-md);
 }
 
-.menuLink {
-  color: var(--color-surface);
+.title-part {
+  cursor: default;
+}
+
+.menuColumn > h4 {
+  color: var(--color-accent);
 }
 
 .nav-link > *, 
@@ -75,7 +79,7 @@ header {
   font-size: var(--text-base);
   font-weight: 500;
   transition: color .3s ease-in-out;
-  color: var(--color-text);
+  color: var(--color-secondary);
   cursor: pointer;
   padding: var(--space-xs) var(--space-md);
   border-radius: 50px;
@@ -98,13 +102,13 @@ header {
 
 .menuContent {
   position: absolute;
-  top: 60px;
+  top: 39px;
   right: 0;
   width: 100%;
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
-  z-index: 1000;
+  z-index: 500;
   padding-top: var(--space-lg);
 }
 
@@ -122,8 +126,8 @@ header {
   max-width: 350px;
 }
 
-.service-box p {
-  color: var(--color-surface);
+.service-box h3 {
+  color: var(--color-accent);
 }
 
 @media (max-width: 768px) {
