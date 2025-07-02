@@ -228,7 +228,7 @@ export default function Header() {
       </div>
 
       {/* Auth Buttons */}
-      <div className="header-part" ref={rightPartRef}>
+      <div className="header-part auth-part" ref={rightPartRef}>
         {user ? (
           <>
             <span className="user" onClick={() => navigate('/profile')}><FaUser /></span>

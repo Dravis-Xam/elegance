@@ -135,6 +135,10 @@ header {
   color: var(--color-text);
 }
 
+.auth-part {
+  flex: 1;  
+}
+
 @media (max-width: 768px) {
   .header-part {
     width: 50vw;
@@ -156,7 +160,11 @@ header {
     flex-flow: row wrap;
     align-items: center;
   }
-  
+  .log-in, .log-out, .sign-up {
+    width: 100%;
+    text-align: center;
+    font-size: var(--text-xs);
+  }
 }
 
 .c-sidebar {
