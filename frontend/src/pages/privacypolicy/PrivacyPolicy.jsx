@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
   return (
     <div className="privacy-policy-container">
       <Header />
-      <div className="privacy-policy-card">
+      <div className="privacy-policy-card" style={{marginTop: '50px'}}>
         <h1 className="policy-title">Privacy Policy</h1>
         <h2 className="policy-subtitle">DAOGROW</h2>
 
