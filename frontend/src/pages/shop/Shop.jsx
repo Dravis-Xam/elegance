@@ -23,7 +23,7 @@ const Shop = () => {
     return (
         <div>
             <Header />
-            <div className="container shop-container">
+            <div className="shop-container">
                 <h2 style={{textAlign: 'center', display: 'flex', justifyContent:'center', alignItems: 'center'}}>Shop</h2>
                 <div className="products-container">
                     <Listing products={filteredProducts}/>
