@@ -159,10 +159,10 @@ header {
     align-items: center;
   }
   .log-in, .log-out, .sign-up {
-    width: 100%;
+    width: 50px;
     text-align: center;
     height: 100%;
-    padding: 4px;
+    padding: 2px;
     text-wrap: nowrap;
     font-size: var(--text-xs);
   }
