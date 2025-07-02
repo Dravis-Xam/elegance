@@ -9,8 +9,8 @@ const Hero = () => {
             <img src={modelpic} className='hero-pic' alt='...'></img>
             <div className="hero-content">
                 <h3>Change Yourself</h3>
-                <h1>WITH THE PERFECT MAKEUP</h1>
-                <p>Discover the latest trends and techniques in makeup artistry. Whether you're a beginner or a pro, we have something for everyone.</p>
+                <h1>WITH THE PERFECT NATURAL BEAUTY PRODUCTS</h1>
+                <p>Endow your skin with the quality and service it deserves. We offer products that transform your skin into a tender and radiant one.</p>
                 <button className="btn-primary explore-btn" onClick={() => navigate('/shop')}>Explore Now</button>
             </div>
         </div>
