@@ -162,7 +162,7 @@ header {
     width: 100%;
     text-align: center;
     height: 100%;
-    padding: var(--space-xs);
+    padding: 4px;
     font-size: var(--text-xs);
   }
 }
