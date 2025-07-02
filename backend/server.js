@@ -17,7 +17,7 @@ const app = express();
 const server = http.createServer(app); // create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: 'https://elegance-agq9.onrender.com',
     credentials: true
   }
 });
@@ -26,7 +26,7 @@ const io = new Server(server, {
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://elegance-agq9.onrender.com',
   credentials: true,
 }));
 
