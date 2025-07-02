@@ -137,6 +137,7 @@ header {
 
 .auth-part {
   flex: 1;  
+  gap: 5px;
   display: flex;
 }
 
@@ -152,10 +153,6 @@ header {
     font-size: var(--text-sm);
   }
   
-  .log-out, .log-in, .sign-up {
-    font-size: var(--text-xs);
-    padding: 1px;
-  }
   
   .service-list, .category-list {
     flex-flow: row wrap;
@@ -165,6 +162,7 @@ header {
     width: 100%;
     text-align: center;
     height: 100%;
+    padding: var(--space-xs);
     font-size: var(--text-xs);
   }
 }
