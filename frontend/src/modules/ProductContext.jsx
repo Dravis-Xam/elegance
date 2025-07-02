@@ -4,6 +4,8 @@ import { toast } from "./ToastStore";
 
 // ------------------- Context Setup -------------------
 
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+
 const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
@@ -14,7 +16,7 @@ export const ProductProvider = ({ children }) => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/products/");
+      const res = await axios.get(`${baseUrl}/products/`);
       setProducts(res.data || []);
     } catch (err) {
       console.error("Failed to fetch products:", err);
@@ -26,7 +28,7 @@ export const ProductProvider = ({ children }) => {
 
 const findProduct = async (query) => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/products/search?q=${encodeURIComponent(query)}`);
+    const res = await axios.get(`${baseUrl}/products/search?q=${encodeURIComponent(query)}`);
     return Array.isArray(res.data) ? res.data : [res.data];
   } catch (err) {
     console.error("Failed to fetch products:", err);
@@ -41,7 +43,7 @@ const findProduct = async (query) => {
 
   const addProduct = async (productData) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/products/add", productData);
+      const res = await axios.post(`${baseUrl}/products/add`, productData);
       setProducts((prev) => [...prev, res.data]);
     } catch (err) {
       console.error("Failed to add product:", err);
@@ -57,7 +59,7 @@ const findProduct = async (query) => {
         console.log("No id passed: ", productData?.id)
         return;
       }
-      const res = await axios.put(`http://localhost:5000/api/products/edit/${productData.id}`, productData);
+      const res = await axios.put(`${baseUrl}/products/edit/${productData.id}`, productData);
       setProducts((prev) =>
         prev.map((p) => (p.id === res.data.id ? res.data : p))
       );
@@ -75,7 +77,7 @@ const findProduct = async (query) => {
         console.log("No id passed: ", productData?.id)
         return;
       }
-      await axios.delete(`http://localhost:5000/api/products/delete/${id}`);
+      await axios.delete(`${baseUrl}/products/delete/${id}`);
       setProducts((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
       console.error("Failed to delete product:", err);
