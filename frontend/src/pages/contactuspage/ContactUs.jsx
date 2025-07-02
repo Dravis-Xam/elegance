@@ -40,7 +40,7 @@ export default function ContactUs() {
   return (
     <div className="contactPage">
       <Header />
-      <h1>Contact Us</h1>
+      <h1 style={{marginTop: '50px'}}>Contact Us</h1>
 
       <section className='contact-form'>
         <h3>Send us a message</h3>
