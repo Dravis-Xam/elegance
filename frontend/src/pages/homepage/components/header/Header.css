@@ -153,8 +153,8 @@ header {
   }
   
   .log-out, .log-in, .sign-up {
-    font-size: var(--text-sm);
-    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--text-xs);
+    padding: 1px;
   }
   
   .service-list, .category-list {
