@@ -54,7 +54,7 @@
     align-items: center;
     justify-content: center;
     z-index: 999;
-    top: -300%;
+    top: -300px;
     left: -2000%;
 }
 
