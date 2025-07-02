@@ -102,7 +102,7 @@ const Signup = () => {
             fontFamily: 'Ancizar sans',
           }}
         />
-        <button type="submit" className="btn-primary" style={{ width: '90%' }}>
+        <button type="submit" className="btn-primary" style={{ width: '94%' }}>
           Sign Up
         </button>
       </form>
