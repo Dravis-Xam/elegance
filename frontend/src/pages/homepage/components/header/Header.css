@@ -163,6 +163,7 @@ header {
     text-align: center;
     height: 100%;
     padding: 4px;
+    text-wrap: nowrap;
     font-size: var(--text-xs);
   }
 }
