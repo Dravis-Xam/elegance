@@ -159,7 +159,7 @@ header {
     height: fit-content;
     scale: 0.5;
     top: -300px;
-    left: 50%;
+    left: 80%;
     transform: translateX(-50%);
   }
   
