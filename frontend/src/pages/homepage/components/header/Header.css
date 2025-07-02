@@ -175,6 +175,8 @@ header {
     padding: 0 2px;
     text-wrap: nowrap;
     font-size: var(--text-xs);
+    background-color: transparent;
+    border: none;
   }
 }
 
