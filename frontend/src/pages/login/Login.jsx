@@ -42,6 +42,7 @@ const Login = () => {
         backgroundColor: 'var(--color-surface)',
         borderRadius: 'var(--radius-lg)',
         boxShadow: 'var(--shadow-md)',
+        maxWidth: '100%',
         width: '500px' }}>
       <h2 className="text-primary" style={{textAlign: 'center'}}>Login</h2>
       <form onSubmit={handleSubmit} style={{ 
@@ -50,7 +51,8 @@ const Login = () => {
         padding: 'var(--space-lg)',
         backgroundColor: 'var(--color-surface)',
         borderRadius: 'var(--radius-lg)',
-        boxShadow: 'var(--shadow-md)'
+        boxShadow: 'var(--shadow-md)',
+        width: '70%'
       }}>
         <input
           name="email"
@@ -84,7 +86,7 @@ const Login = () => {
             fontFamily: 'Ancizar sans'
           }}
         />
-        <button type="submit" className="btn-primary" style={{ width: '100%' }}>
+        <button type="submit" className="btn-primary" style={{ width: '90%' }}>
           Login
         </button>
       </form>

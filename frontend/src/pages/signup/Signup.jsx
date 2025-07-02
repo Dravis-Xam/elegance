@@ -42,7 +42,8 @@ const Signup = () => {
         backgroundColor: 'var(--color-surface)',
         borderRadius: 'var(--radius-lg)',
         boxShadow: 'var(--shadow-md)',
-        width: '500px' }}>
+        maxWidth: '500px',
+        width: '100%' }}>
       <h2 className="text-primary" style={{textAlign: 'center'}}>Sign Up</h2>
       <form onSubmit={handleSubmit} style={{ 
         maxWidth: '400px', 
@@ -50,7 +51,8 @@ const Signup = () => {
         padding: 'var(--space-lg)',
         backgroundColor: 'var(--color-surface)',
         borderRadius: 'var(--radius-lg)',
-        boxShadow: 'var(--shadow-md)'
+        boxShadow: 'var(--shadow-md)',
+        width: '70%'
       }}>
         <input
           type="text"
@@ -100,11 +102,11 @@ const Signup = () => {
             fontFamily: 'Ancizar sans',
           }}
         />
-        <button type="submit" className="btn-primary" style={{ width: '100%' }}>
+        <button type="submit" className="btn-primary" style={{ width: '90%' }}>
           Sign Up
         </button>
       </form>
-      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', marginTop: '30px'}}>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', marginTop: '30px', width: '90%'}}>Already have an account?
         <span style={{cursor: 'default'}} onClick={()=>navigate('/login')}>Log in</span>
       </div>
       <ToastContainer />
