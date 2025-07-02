@@ -5,6 +5,7 @@ import Header from '../homepage/components/header/Header';
 import Footer from '../homepage/components/footer/Footer';
 import { useProduct } from '../../modules/ProductContext';
 import Listing from './components/listing/Listing';
+import './Shop.css';
 
 const Shop = () => {
     const navigate = useNavigate();
