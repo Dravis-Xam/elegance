@@ -137,6 +137,7 @@ header {
 
 .auth-part {
   flex: 1;  
+  display: flex;
 }
 
 @media (max-width: 768px) {
@@ -163,6 +164,7 @@ header {
   .log-in, .log-out, .sign-up {
     width: 100%;
     text-align: center;
+    height: 100%;
     font-size: var(--text-xs);
   }
 }
