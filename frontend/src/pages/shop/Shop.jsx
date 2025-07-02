@@ -22,13 +22,11 @@ const Shop = () => {
     return (
         <div>
             <Header />
-            <div className="container">
+            <div className="container shop-container">
                 <h2 style={{textAlign: 'center', display: 'flex', justifyContent:'center', alignItems: 'center'}}>Shop</h2>
                 <div className="products-container">
                     <Listing products={filteredProducts}/>
                 </div>
-                <button onClick={()=>navigate("/details")}>Details</button>
-                <button onClick={()=> navigate('/')}>Home</button>
             </div>
             <Footer />
             <MoveToTop/>
