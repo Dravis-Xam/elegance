@@ -1,113 +1,170 @@
-//order context
-import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-
-// ------------------- Context Setup -------------------
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useNotifications } from "./NotificationContext";
+import api from "../utils/api.js";
 
 const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
-  const [order, setOrder] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [errors, setError] = useState([])
-  // ------------------- CRUD Operations -------------------
+  const [errors, setErrors] = useState([]);
+  const { notifications } = useNotifications();
 
-  const fetchOrder = async () => {
+  // Filter notifications of type 'Order update'
+  const orderUpdates = useMemo(() => {
+    return notifications
+      .filter(n => n.type === "Order update")
+      .map(n => ({
+        ...n,
+        message: (() => {
+          try {
+            return JSON.parse(n.metadata);
+          } catch {
+            return { error: "Invalid JSON" };
+          }
+        })(),
+      }));
+  }, [notifications]);
+
+  const resetErrors = () => setErrors([]);
+
+  const fetchAllOrder = async () => {
+    setIsLoading(true);
+    resetErrors();
     try {
-      const res = await axios.get("http://localhost:5000/api/order/");
-      setOrder(res.data || []);
+      const res = await api.get("/orders/all");
+      setOrders(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
-      console.error("Failed to fetch order:", err);
-      setError(prev => [...prev, err])
+      console.error("Failed to fetch all orders:", err);
+      setErrors(prev => [...prev, err?.message || "Unknown error"]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
-const findOrder = async (query) => {
-  try {
-    const res = await axios.get(`http://localhost:5000/api/order/search?q=${encodeURIComponent(query)}`);
-    return Array.isArray(res.data) ? res.data : [res.data];
-  } catch (err) {
-    console.error("Failed to fetch order:", err);
-    setError(prev => [...prev, err]);
-    return [];
-  } finally {
-    setIsLoading(false);
-  }
-};
+  const fetchOrder = async () => {
+    setIsLoading(true);
+    resetErrors();
+    try {
+      const res = await api.get("/orders");
+      setOrders(Array.isArray(res.data) ? res.data : [res.data]);
+    } catch (err) {
+      console.error("Failed to fetch order:", err);
+      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  const refetchOrders = fetchOrder;
 
+  const findOrder = async (query) => {
+    setIsLoading(true);
+    resetErrors();
+    try {
+      const res = await api.get(`/orders/search?q=${encodeURIComponent(query)}`);
+      return Array.isArray(res.data) ? res.data : [res.data];
+    } catch (err) {
+      console.error("Failed to search order:", err);
+      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const findYourOrder = async (id) => {
+    setIsLoading(true);
+    resetErrors();
+    try {
+      const res = await api.get(`/orders/${id}`);
+      return Array.isArray(res.data) ? res.data : [res.data];
+    } catch (err) {
+      console.error("Failed to fetch your order:", err);
+      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const addOrder = async (orderData) => {
+    setIsLoading(true);
+    resetErrors();
     try {
-      const res = await axios.post("http://localhost:5000/api/order/add", orderData);
-      setOrder((prev) => [...prev, res.data[0]]);
-      console.log(res.data[1]) //testing 
+      const res = await api.post("/orders/add", orderData);
+      if (Array.isArray(res.data) && res.data.length > 0) {
+        setOrders(prev => [...prev, res.data[0]]);
+        console.log(res.data[1]); // e.g., pushUSSD result
+      }
     } catch (err) {
-      console.error("Failed to add product:", err);
-      setError(prev => [...prev, err])
-    }finally {
-      setIsLoading(false)
+      console.error("Failed to add order:", err);
+      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const updateOrder = async (orderData) => {
+    setIsLoading(true);
+    resetErrors();
     try {
-      const res = await axios.put(`http://localhost:5000/api/order/edit/${orderData.id}`, orderData);
-      setOrder((prev) =>
-        prev.map((p) => (p.id === res.data.id ? res.data : p))
-      );
+      const res = await api.put(`/orders/edit/${orderData.id}`, orderData);
+      if (res.data?.id) {
+        setOrders(prev => prev.map(o => (o.id === res.data.id ? res.data : o)));
+      }
     } catch (err) {
-      console.error("Failed to update product:", err);
-      setError(prev => [...prev, err])
-    }finally {
-      setIsLoading(false)
+      console.error("Failed to update order:", err);
+      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const deleteOrder = async (id) => {
+    setIsLoading(true);
+    resetErrors();
     try {
-      await axios.delete(`http://localhost:5000/api/order/delete/${id}`);
-      setOrder((prev) => prev.filter((p) => p.id !== id));
+      await api.delete(`/orders/${id}`);
+      setOrders(prev => prev.filter(o => o.id !== id));
     } catch (err) {
       console.error("Failed to delete order:", err);
-      setError(prev => [...prev, err])
-    }finally {
-      setIsLoading(false)
+      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  // ------------------- Initial Fetch -------------------
 
   useEffect(() => {
     fetchOrder();
   }, []);
 
+  const contextValue = useMemo(() => ({
+    orders,
+    orderUpdates,
+    fetchAllOrder,
+    fetchOrder,
+    refetchOrders,
+    findOrder,
+    findYourOrder,
+    addOrder,
+    updateOrder,
+    deleteOrder,
+    isLoading,
+    errors,
+  }), [orders, orderUpdates, isLoading, errors]);
+
   return (
-    <OrderContext.Provider
-      value={{
-        order,
-        findOrder,
-        fetchOrder,
-        addOrder,
-        updateOrder,
-        deleteOrder,
-        errors, 
-        isLoading
-      }}
-    >
+    <OrderContext.Provider value={contextValue}>
       {children}
     </OrderContext.Provider>
   );
 };
 
-// ------------------- Hook -------------------
-
 export const useOrder = () => {
   const context = useContext(OrderContext);
   if (!context) {
-    throw new Error("useProduct must be used within a ProductProvider");
+    throw new Error("useOrder must be used within an OrderProvider");
   }
   return context;
 };

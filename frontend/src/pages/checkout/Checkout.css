@@ -2,4 +2,48 @@
     padding: var(--space-lg);
     margin: 50px 0;
     position: relative;
+
+}
+
+.p-options {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.p-options > button.active {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+}
+
+.m-input-grp > input {
+    color: var(--color-text);
+}
+
+.see-loc-p > button {
+    display: inline-flex;
+    margin-right: var(--space-sm);
+}
+
+.complete-p-btn:disabled {
+    opacity: .7;
+    cursor: not-allowed;
+}
+
+.o-save-btn:disabled {
+    opacity: .7;
+}
+
+@media (max-width: 768px) {
+    .p-options > button {
+        font-size: var(--text-xs);
+        text-wrap: nowrap;
+    }
+
+    .o-save-btn {
+        margin-top: var(--space-md);
+    }
 }

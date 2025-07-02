@@ -11,6 +11,7 @@ import { ProductProvider } from './modules/ProductContext';
 import { CategoryProvider } from './modules/CategoryContext.jsx';
 import { TestimonialProvider } from './modules/TestimonialContext.jsx';
 import { NotificationProvider} from './modules/NotificationContext.jsx'
+import { OrderProvider } from './modules/OrderContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -19,13 +20,15 @@ createRoot(document.getElementById('root')).render(
         <AuthProvider>
           <TestimonialProvider>
             <ProductProvider>
-              <CategoryProvider>
-                <CartProvider>
-                  <ThemeProvider>
-                    <AppRouter />
-                  </ThemeProvider>
-                </CartProvider>
-              </CategoryProvider>
+              <OrderProvider>
+                <CategoryProvider>
+                  <CartProvider>
+                    <ThemeProvider>
+                      <AppRouter />
+                    </ThemeProvider>
+                  </CartProvider>
+                </CategoryProvider>
+              </OrderProvider>
             </ProductProvider>
           </TestimonialProvider>
         </AuthProvider>

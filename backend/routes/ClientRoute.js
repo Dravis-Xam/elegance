@@ -137,6 +137,40 @@ router.put('/change-creds', authenticateToken, async (req, res) => {
   }
 });
 
+// update payment option
+router.put('/update-payment-option', authenticateToken, async (req, res) => {
+  const currentUsername = req.user.name;
+  const { preferredPaymentOption, contact } = req.body;
+
+  try {
+    const getUser = async() => {
+      
+    if(contact) {
+        return await User.findOneAndUpdate(
+          { username: currentUsername },
+          { preferredPaymentOption, contact },
+          { new: true } // return the updated user
+        );
+      } else {
+        return await User.findOneAndUpdate(
+          { username: currentUsername },
+          { preferredPaymentOption },
+          { new: true } // return the updated user
+        );
+      }
+    }
+
+    const user = await getUser();
+    
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    req.notify('Credentials change');
+    return res.json({ user });
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong', error: err.message });
+  }
+});
+
 // send code for password recovery
 router.post('/recover', async (req, res) => {
   const { email } = req.body;

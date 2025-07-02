@@ -171,6 +171,16 @@ const savePhoto = async (url) => {
   }
 };
 
+// save prefered payment option
+
+const savePaymentOption = async (preferedPaymentOption, contact) => {
+  await fetch(`${BASE_URL}/auth/update-payment-option`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({preferedPaymentOption, contact})
+    }
+  )
+}
 
   const logout = async () => {
     await fetch(`${BASE_URL}/auth/logout`, {
@@ -205,7 +215,7 @@ const savePhoto = async (url) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, loading, signup, login, logout, fetchUser, changeCredentials, requestRecoveryCode, verifyRecoveryCode, resetPassword, savePhoto }}
+      value={{ user, isAuthenticated: !!user, loading, signup, login, logout, fetchUser, changeCredentials, requestRecoveryCode, verifyRecoveryCode, savePaymentOption, resetPassword, savePhoto }}
     >
       {children}
     </AuthContext.Provider>

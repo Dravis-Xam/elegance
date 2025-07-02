@@ -20,6 +20,9 @@ const notificationMiddleware = (io) => {
         case 'Profile photo':
           message = "You've uploaded your profile picture.";
           break;
+        case 'Order update':
+          message = JSON.stringify(metadata)
+          break;
         default:
           return;
       }

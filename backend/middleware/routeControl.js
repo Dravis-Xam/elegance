@@ -1,4 +1,4 @@
-import { isRouteEnabled } from "../helpers/maintenance";
+import { isRouteEnabled } from "../helpers/maintenance.js";
 
 
 export const routeControl = (routePath) => (req, res, next) => {

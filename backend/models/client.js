@@ -28,7 +28,11 @@ const userSchema = new Schema(
     preferredPaymentOption: {
       type: String,
       default: 'mpesa', 
-    }, role: {
+    },
+    contact: {
+      type: String,
+    },
+     role: {
       type: String,
       default: 'client'
     }, photo: {

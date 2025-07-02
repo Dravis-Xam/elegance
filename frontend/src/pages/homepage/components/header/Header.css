@@ -50,7 +50,7 @@ header {
 }
 
 .menuColumn > h4 {
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .nav-link > *, 
@@ -68,6 +68,11 @@ header {
 .nav-link > *:hover, 
 .nav-link:hover {
   color: var(--color-warning);
+  text-decoration: none;
+}
+
+.menuLink {
+  color: var(--color-text-light);
   text-decoration: none;
 }
 
@@ -127,7 +132,7 @@ header {
 }
 
 .service-box h3 {
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 @media (max-width: 768px) {

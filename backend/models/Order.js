@@ -13,7 +13,6 @@ const orderSchema = new Schema({
     },
     status: {
         type: String,
-        required: true
     },
     productIds: {
         type: [String],
@@ -22,6 +21,16 @@ const orderSchema = new Schema({
     amount: {
         type: String,
         required: true
+    },
+    paymentDetails: {
+        paymentMethod: {
+            type: String,
+            enum: ['T-Pesa', 'bank transfer', 'paypal', 'pesapal'],
+            default: 'T-Pesa'
+        },
+        paymentData: {
+            type: String,
+        }
     },
     address: {
         country: {
@@ -35,6 +44,10 @@ const orderSchema = new Schema({
         },
         town: {
             type: String,
+        },
+        coordinates: {
+            type: [Number],
+            index: '2dsphere' // For geospatial queries
         }
     }
 })

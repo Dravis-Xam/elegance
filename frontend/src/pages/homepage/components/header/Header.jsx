@@ -30,7 +30,7 @@ export default function Header() {
 
   const menuItems = useMemo(() => ({
     services: (
-      <div className="menuContent" style={{ backgroundColor: `rgba( 0, ${currentPAGE === '/' ? '0' : '255'}, 0, 0.3)` }}>
+      <div className="menuContent" style={{ backgroundColor: `rgba(${currentPAGE === '/' ? '148,0,211' : '0,0,0'}, 0.3)` }}>
         <div className="service-list">
           {[
             {
@@ -64,7 +64,7 @@ export default function Header() {
       </div>
     ),
     categories: (
-      <div className="menuContent" style={{ backgroundColor: `rgba( 0, ${currentPAGE === '/' ? '0' : '255'}, 0, 0.3)` }}>
+      <div className="menuContent" style={{ backgroundColor: `rgba(${currentPAGE === '/' ? '148,0,211' : '0,0,0'}, 0.3)` }}>
         <div className="category-list">
           {categoryList.map((category, index) => (
             <CategoryItem key={index} category={category} />
@@ -182,7 +182,7 @@ export default function Header() {
   const handleShowNav = () => setShowDropdown(prev => !prev);
 
   return (
-    <header className="header" ref={headerRef} style={{ backgroundColor: `rgba( 0, ${currentPAGE === '/' ? '0' : '255'}, 0, 0.3)` }}>
+    <header className="header" ref={headerRef} style={{ backgroundColor: `rgba(${currentPAGE === '/' ? '148,0,211' : '0,0,0'}, 0.3)` }}>
       {/* Logo */}
       <div className="header-part title-part">
         <div className="page-title" onClick={()=>navigate('/')}>DAOGROW</div>

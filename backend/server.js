@@ -9,7 +9,6 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import http from 'http';
 import { Server } from 'socket.io';
-import { sendNotification } from './helpers/notification.js';
 import notificationMiddleware from './middleware/updates.js';
 
 dotenv.config();
@@ -40,12 +39,10 @@ app.use('/api/testimonials', testimonialRoute);
 // ✅ Socket.IO logic
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
-  let message
   // Emit test notifications
   app.use(notificationMiddleware(io));
 
   socket.on('disconnect', () => {
-    clearInterval(interval);
     console.log('User disconnected:', socket.id);
   });
 });
