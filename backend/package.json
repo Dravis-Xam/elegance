@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@sentry/node": "^9.34.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -25,6 +26,7 @@
     "multer": "^2.0.0",
     "nodemailer": "^7.0.4",
     "path": "^0.12.7",
+    "sentry": "^0.1.2",
     "socket.io": "^4.8.1",
     "uuid": "^11.1.0"
   },

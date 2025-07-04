@@ -1,6 +1,4 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
-
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import Homepage from "./pages/homepage/homepage";
@@ -15,11 +13,18 @@ import Profile from "./pages/profile/Profile";
 import SearchPage from "./pages/searchPage/SearchPage";
 import Notifications from "./pages/Notifications/Notifications";
 import Checkout from "./pages/checkout/Checkout";
+import AdminPage from "./pages/adminpage/AdminPage";
+import ProtectedRoute from "./utils/ProtectedRoute";
+
 
 const AppRouter = () => {
     return (
         <Routes>
-            <Route path="/" element={<Homepage />} />
+            <Route path="/*" element={<Homepage />} />
+            <Route element={<ProtectedRoute />}>
+                <Route path="/admin" element={<AdminPage />} />
+                {/* add more protected routes here */}
+            </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

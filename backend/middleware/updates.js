@@ -23,6 +23,15 @@ const notificationMiddleware = (io) => {
         case 'Order update':
           message = JSON.stringify(metadata)
           break;
+        case 'Client deleted':
+          message = `Client ${metadata.clientName} has been deleted.`;
+          break;
+        case 'Client updated':
+          message = `Client ${metadata.clientName} has been updated.`;
+          break;
+        case 'Client created':
+          message = `Client ${metadata.clientName} has been created.`;
+          break;
         default:
           return;
       }

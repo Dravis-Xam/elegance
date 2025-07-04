@@ -20,6 +20,6 @@ router.get('/search', authenticateToken, searchOrders);
 router.get('/:id', authenticateToken, getOrderById);
 router.post('/add', authenticateToken, addOrder);
 router.put('/edit/:id', authenticateToken, updateOrder);
-router.delete('/:id', authenticateToken, deleteOrder);
+router.delete('/delete/:id', authenticateToken, deleteOrder);
 
 export default router;

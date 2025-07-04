@@ -76,3 +76,40 @@ export const deleteTestimonial = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+export const comment = async (req, res) => {
+  const { id } = req.params;
+  const { comment } = req.body;
+
+  try {
+    const testimonial = await Testimonial.findByIdAndUpdate(
+      id,
+      { comment, updatedAt: new Date(), updatedBy: req.user._id },
+      { new: true }
+    );
+    if (!testimonial) return res.status(404).json({ message: 'Testimonial not found' });
+    res.json(testimonial);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update testimonial', error: err.message });
+  }
+}
+
+export const search = async (req, res) => {
+  const { q } = req.query;
+    if (!q) return res.status(400).json({ message: "Missing search query" });
+    try {
+        const testimonials = await Testimonial.find({
+            $or: [
+                { name: { $regex: q, $options: 'i' } },
+                { comment: { $regex: q, $options: 'i' } }
+            ]
+        });
+        if (!testimonials.length) {
+            return res.status(404).json({ message: `No testimonial found matching '${q}'` });
+        }
+        res.json(testimonials);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+}

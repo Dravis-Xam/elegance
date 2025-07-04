@@ -222,6 +222,96 @@ router.put('/save-photo', authenticateToken, async (req, res) => {
   }
 });
 
+router.get('/clients', authenticateToken, async (req, res) => {
+  try {
+    const users = await User.find({ role: 'customer' }).select('-password');
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch clients', error: err.message });
+  }
+});
 
+router.delete('/clients/delete/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByIdAndDelete(id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    req.notify('Client deleted');
+    res.json({ message: 'Client deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to delete client', error: err.message });
+  }
+});
+
+router.put('/clients/edit/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const { username, email, preferredPaymentOption, role } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      id,
+      { username, email, preferredPaymentOption, role },
+      { new: true }
+    );
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    req.notify('Client updated');
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update client', error: err.message });
+  }
+});
+
+router.get('/clients/search', authenticateToken, async (req, res) => {
+  const { query } = req.query;
+  try {
+    const users = await User.find({
+      $or: [
+        { username: new RegExp(query, 'i') },
+        { email: new RegExp(query, 'i') },
+      ],
+      role: 'customer',
+    }).select('-password');
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to search clients', error: err.message });
+  }
+});
+
+router.post('/clients/add', authenticateToken, async (req, res) => {
+  const { username, email, password, preferredPaymentOption, role } = req.body;
+  try {
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    const existingUser = await User.find({ email });
+    if (existingUser.length > 0) {
+      return res.status(409).json({ message: 'Email already registered.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      preferredPaymentOption,
+      role: role || 'customer',
+    });
+
+    await newUser.save();
+    req.notify('Client added');
+    res.status(201).json({
+      message: 'Client added successfully',
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        role: newUser.role,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
 
 export default router;

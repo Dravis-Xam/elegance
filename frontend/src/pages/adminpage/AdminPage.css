@@ -1,0 +1,86 @@
+/* header styles */
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: 0;
+}
+
+
+.beauty-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.205);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  z-index: 400;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding-left: 100px;
+  right: -20%;
+  box-sizing: border-box;
+}
+
+.beauty-logo {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.luxury-search {
+    width: 500px;
+    border-radius: 5px;
+}
+
+.luxury-search .ant-input {
+  border: 1px solid #ffccd5;
+  transition: all 0.3s;
+}
+
+.luxury-search .ant-input:hover {
+  border-color: #ff4d6d;
+}
+
+.notification-bell {
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #ff4d6d;
+}
+
+.notification-bell:hover {
+  transform: scale(1.1);
+}
+
+.admin-profile {
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.admin-profile:hover {
+  background: #fff0f3;
+}
+
+.sales-counter {
+  display: flex;
+  align-items: center;
+  background: #fff0f3;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: #ff4d6d;
+  font-weight: 500;
+}
+
+.sales-counter small {
+  margin-left: 5px;
+  opacity: 0.7;
+  font-size: 0.8em;
+}
+/*  */

@@ -140,7 +140,7 @@ router.put('/edit/:id',  async (req, res) => {
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
-router.delete('/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     
@@ -156,5 +156,28 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.get('/search', async (req, res) => {
+  const { q } = req.query;
+  if (!q) return res.status(400).json({ message: "Missing search query" });
+
+  try {
+    const products = await Product.find({
+      $or: [
+        { id: { $regex: q, $options: 'i' } },
+        { name: { $regex: q, $options: 'i' } },
+        { category: { $regex: q, $options: 'i' } }
+      ]
+    });
+
+    if (!products.length) {
+      return res.status(404).json({ message: `No product found matching '${q}'` });
+    }
+
+    res.json(products);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
 
 export default router;
