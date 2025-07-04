@@ -19,7 +19,7 @@ const app = express();
 const server = http.createServer(app); // create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',//'https://elegance-pjkv.vercel.app'
+    origin: 'https://elegance-pjkv.vercel.app',//'https://elegance-pjkv.vercel.app'
     credentials: true
   }
 });
@@ -28,7 +28,7 @@ const io = new Server(server, {
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', //https://elegance-pjkv.vercel.app
+  origin: 'https://elegance-pjkv.vercel.app', //https://elegance-pjkv.vercel.app
   credentials: true,
 }));
 app.use(Sentry.Handlers.requestHandler());
