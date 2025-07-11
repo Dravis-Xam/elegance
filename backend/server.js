@@ -17,9 +17,10 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app); // create HTTP server
+const allowedOrigins = ['http://localhost:5173', 'https://elegance-pjkv.vercel.app'];
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',//'https://elegance-pjkv.vercel.app'
+    origin: allowedOrigins,//'https://elegance-pjkv.vercel.app'
     credentials: true
   }
 });
@@ -27,7 +28,6 @@ const io = new Server(server, {
 // Middleware
 app.use(cookieParser());
 app.use(express.json());
-const allowedOrigins = ['http://localhost:5173', 'https://yourfrontend.vercel.app'];
 
 app.use(cors({
   origin: allowedOrigins,
