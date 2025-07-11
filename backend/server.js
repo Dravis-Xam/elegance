@@ -10,7 +10,7 @@ import cors from 'cors';
 import http from 'http';
 import { Server } from 'socket.io';
 import notificationMiddleware from './middleware/updates.js';
-import Sentry from './utils/sentry.js'; // Import Sentry for error tracking
+import Sentry from './utils/Sentry.js'; // Import Sentry for error tracking
 import RequestLog from './models/RequestLog.js';
 
 dotenv.config();
@@ -19,7 +19,7 @@ const app = express();
 const server = http.createServer(app); // create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: 'https://elegance-pjkv.vercel.app',//'https://elegance-pjkv.vercel.app'
+    origin: 'http://localhost:5173',//'https://elegance-pjkv.vercel.app'
     credentials: true
   }
 });
@@ -27,11 +27,14 @@ const io = new Server(server, {
 // Middleware
 app.use(cookieParser());
 app.use(express.json());
+const allowedOrigins = ['http://localhost:5173', 'https://yourfrontend.vercel.app'];
+
 app.use(cors({
-  origin: 'https://elegance-pjkv.vercel.app', //https://elegance-pjkv.vercel.app
-  credentials: true,
+  origin: allowedOrigins,
+  credentials: true
 }));
-app.use(Sentry.Handlers.requestHandler());
+
+Sentry.setupExpressErrorHandler(app);
 
 app.use(async (req, res, next) => {
   const start = Date.now();
@@ -87,7 +90,8 @@ io.on('connection', (socket) => {
   });
 });
 
-app.use(Sentry.Handlers.errorHandler()); // After all routes
+
+Sentry.setupExpressErrorHandler(app);
 
 app.use((err, req, res, next) => {
   console.error('Unhandled Error:', err);

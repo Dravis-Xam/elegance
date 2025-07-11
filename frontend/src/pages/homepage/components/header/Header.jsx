@@ -30,7 +30,7 @@ export default function Header() {
 
   const menuItems = useMemo(() => ({
     services: (
-      <div className="menuContent" style={{ backgroundColor: `rgba(${currentPAGE === '/' ? '148,0,211' : '0,0,0'}, 0.6)` }}>
+      <div className="menuContent" style={{ backgroundColor: `rgba(${width <= 768 ? '0,0,0' : '113,0,166'}, 0.5)`, backdropFilter: "blur(10px)" }}>
         <div className="service-list">
           {[
             {
@@ -64,7 +64,7 @@ export default function Header() {
       </div>
     ),
     categories: (
-      <div className="menuContent" style={{ backgroundColor: `rgba(${currentPAGE === '/' ? '148,0,211' : '0,0,0'}, 0.6)` }}>
+      <div className="menuContent" style={{ backgroundColor: `rgba(${width <= 768 ? '0,0,0' : '148,0,211'}, 0.3)`}}>
         <div className="category-list">
           {categoryList.map((category, index) => (
             <CategoryItem key={index} category={category} />

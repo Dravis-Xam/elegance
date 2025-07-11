@@ -1,5 +1,5 @@
 // sentry.js
-import Sentry from '@sentry/node';
+import * as Sentry from '@sentry/node';
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN, // Your Sentry DSN

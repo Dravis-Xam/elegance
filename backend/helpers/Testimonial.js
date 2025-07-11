@@ -30,7 +30,7 @@ export const addTestimonial = async (req, res) => {
 
 export const toggleLike = async (req, res) => {
   const { id } = req.params;
-  const userId = req.user.id; // ← make sure `authenticateToken` adds this
+  const userId = req.user.userId; // ← make sure `authenticateToken` adds this
 
   try {
     const testimonial = await Testimonial.findById(id);

@@ -25,6 +25,7 @@ import Settings from './Settings';
 import ProductTabs from './ProductTabs';
 import Account from './Account';
 import TestimonialTab from './Testimonial';
+import { useAuth } from '../../../modules/AuthContext';
 
 const { Sider } = Layout;
 
@@ -35,6 +36,8 @@ const AppSider = () => {
   const [selectedKey, setSelectedKey] = useState('dashboard');
   const [openKeys, setOpenKeys] = useState([]);
   const [showProductForm, setShowProductForm] = useState(false);
+
+  const { logout } = useAuth()
 
   const userData = {
     name: storedUsername || 'Admin User',
@@ -50,8 +53,8 @@ const AppSider = () => {
 
   const handleMenuClick = ({ key }) => {
     if (key === 'logout') {
-      // handle logout separately
       console.log('Logging out...');
+      logout();
     } else {
       setSelectedKey(key);
     }
@@ -216,7 +219,7 @@ const AppSider = () => {
                   key: 'logout',
                   icon: <LogoutOutlined />,
                   label: collapsed ? '' : 'Logout',
-                  className: 'menu-item-logout'
+                  className: 'menu-item-logout',
                 }
               ]}
             />

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/client.js';
 import { authenticateToken } from '../middleware/auth.js';
 import sendEmail from '../utils/mailer.js';
+import { authorizeRole } from '../middleware/authorise.js';
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key_here';
@@ -34,21 +35,15 @@ router.post('/signup', async (req, res) => {
       email,
       password: hashedPassword,
       preferredPaymentOption,
-      role: 'customer',
+      role: 'customer', 
     });
 
     await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id, role: newUser.role }, JWT_SECRET, {
-      expiresIn: '7d',
-    });
-
-    res.cookie('token', token, COOKIE_OPTIONS);
-
     res.status(201).json({
       message: 'User registered successfully',
       User: {
-        id: newUser._id,
+        userId: newUser._id,
         username: newUser.username,
         email: newUser.email,
         role: newUser.role,
@@ -72,7 +67,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials.' });
     }
 
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, {
       expiresIn: '7d',
     });
 
@@ -81,7 +76,7 @@ router.post('/login', async (req, res) => {
     res.json({
       message: 'Login successful',
       user: {
-        id: user._id,
+        userId: user._id,
         username: user.username,
         email: user.email,
         role: user.role,
@@ -97,25 +92,22 @@ router.post('/logout', (req, res) => {
   res.json({ message: 'Logged out successfully' });
 });
 
-router.get('/me', async (req, res) => {
+router.get('/me', authenticateToken, async (req, res) => {
   try {
-    const token = req.cookies.token;
-    if (!token) return res.status(401).json({ message: 'Not authenticated' });
-
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const user = await User.findById(decoded.id).select('-password');
+    const user = await User.findById(req.user.userId).select('-password');
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     res.json({
       userId: user._id,
       username: user.username,
       role: user.role,
-      exp: decoded.exp,
+      exp: req.user.exp, // assuming 'exp' is part of req.user from the token
     });
   } catch (err) {
-    res.status(401).json({ message: 'Invalid token', error: err.message });
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+
 
 // change username and email, update database and return user
 router.put('/change-creds', authenticateToken, async (req, res) => {
@@ -214,7 +206,7 @@ router.post('/reset-password', authenticateToken, async (req, res) => {
 router.put('/save-photo', authenticateToken, async (req, res) => {
   try {
     const { photo } = req.body;
-    const user = await User.findByIdAndUpdate(req.user.id, { photo }, { new: true });
+    const user = await User.findByIdAndUpdate(req.user.userId, { photo }, { new: true });
     req.notify('Profile photo');
     res.json(user);
   } catch (err) {
@@ -222,7 +214,7 @@ router.put('/save-photo', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/clients', authenticateToken, async (req, res) => {
+router.get('/clients', authenticateToken, authorizeRole('admin'), async (req, res) => {
   try {
     const users = await User.find({ role: 'customer' }).select('-password');
     res.json(users);
@@ -231,7 +223,7 @@ router.get('/clients', authenticateToken, async (req, res) => {
   }
 });
 
-router.delete('/clients/delete/:id', authenticateToken, async (req, res) => {
+router.delete('/clients/delete/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.findByIdAndDelete(id);
@@ -243,7 +235,7 @@ router.delete('/clients/delete/:id', authenticateToken, async (req, res) => {
   }
 });
 
-router.put('/clients/edit/:id', authenticateToken, async (req, res) => {
+router.put('/clients/edit/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
   const { id } = req.params;
   const { username, email, preferredPaymentOption, role } = req.body;
 
@@ -261,7 +253,7 @@ router.put('/clients/edit/:id', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/clients/search', authenticateToken, async (req, res) => {
+router.get('/clients/search', authenticateToken, authorizeRole('admin'), async (req, res) => {
   const { query } = req.query;
   try {
     const users = await User.find({
@@ -277,7 +269,7 @@ router.get('/clients/search', authenticateToken, async (req, res) => {
   }
 });
 
-router.post('/clients/add', authenticateToken, async (req, res) => {
+router.post('/clients/add', authenticateToken, authorizeRole('admin'),async (req, res) => {
   const { username, email, password, preferredPaymentOption, role } = req.body;
   try {
     if (!username || !email || !password) {

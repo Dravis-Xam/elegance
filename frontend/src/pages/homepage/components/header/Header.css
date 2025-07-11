@@ -108,10 +108,12 @@ header {
 .menuContent {
   position: absolute;
   top: 39px;
-  right: 0;
-  width: 100%;
-  backdrop-filter: blur(10px);
-  border-radius: var(--radius-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 98%;
+  border-radius: 0;
+  border-bottom-left-radius: var(--radius-xl);
+  border-bottom-right-radius: var(--radius-xl);
   box-shadow: var(--shadow);
   z-index: 500;
   padding-top: var(--space-lg);
@@ -120,11 +122,12 @@ header {
 .service-list, .category-list {
   display: flex;
   flex-flow: row wrap;
-  align-items: top;
-  justify-content: space-evenly;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-md);
   padding: var(--space-lg) var(--space-md);
   background-color: inherit;
+  text-align: center;
 }
 
 .service-box {
@@ -155,18 +158,19 @@ header {
 
   .menuContent {
     position: absolute;
-    width: 250px;
+    width: 450px;
     height: fit-content;
     scale: 0.7;
-    top: -150px;
-    left: 140%;
-    transform: translateX(-50%);
+    top: -170px;
+    left: 160%;
+    transform: translateX(-50%) scale(.8);
   }
   
   
   .service-list, .category-list {
-    flex-flow: row wrap;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
   }
   .log-in, .log-out, .sign-up {
     width: 50px;
@@ -230,5 +234,9 @@ header {
 
 .c-sidebar-content.active {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(-20px);
+}
+
+.menuLink {
+  color: var(--color-secondary);
 }

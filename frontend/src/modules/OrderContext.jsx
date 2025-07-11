@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useNotifications } from "./NotificationContext";
-import api from "../utils/api.js";
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const defaultHeaders = { 'Content-Type': 'application/json' };
 
 const OrderContext = createContext();
 
@@ -10,7 +12,6 @@ export const OrderProvider = ({ children }) => {
   const [errors, setErrors] = useState([]);
   const { notifications } = useNotifications();
 
-  // Filter notifications of type 'Order update'
   const orderUpdates = useMemo(() => {
     return notifications
       .filter(n => n.type === "Order update")
@@ -28,15 +29,26 @@ export const OrderProvider = ({ children }) => {
 
   const resetErrors = () => setErrors([]);
 
+  const handleResponse = async (res) => {
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Unknown error");
+    return data;
+  };
+
   const fetchAllOrder = async () => {
     setIsLoading(true);
     resetErrors();
     try {
-      const res = await api.get("/orders/all");
-      setOrders(Array.isArray(res.data) ? res.data : []);
+      const res = await fetch(`${BASE_URL}/orders/all`, {
+        method: 'GET',
+        headers: defaultHeaders,
+        credentials: 'include',
+      });
+      const data = await handleResponse(res);
+      setOrders(Array.isArray(data.data) ? data.data : []);
     } catch (err) {
-      console.error("Failed to fetch all orders:", err);
-      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      console.error("Fetch all orders failed:", err);
+      setErrors(prev => [...prev, err.message]);
     } finally {
       setIsLoading(false);
     }
@@ -46,27 +58,35 @@ export const OrderProvider = ({ children }) => {
     setIsLoading(true);
     resetErrors();
     try {
-      const res = await api.get("/orders");
-      setOrders(Array.isArray(res.data) ? res.data : [res.data]);
+      const res = await fetch(`${BASE_URL}/orders`, {
+        method: 'GET',
+        headers: defaultHeaders,
+        credentials: 'include',
+      });
+      const data = await handleResponse(res);
+      setOrders(Array.isArray(data.data) ? data.data : [data.data]);
     } catch (err) {
-      console.error("Failed to fetch order:", err);
-      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      console.error("Fetch order failed:", err);
+      setErrors(prev => [...prev, err.message]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const refetchOrders = fetchOrder;
-
   const findOrder = async (query) => {
     setIsLoading(true);
     resetErrors();
     try {
-      const res = await api.get(`/orders/search?q=${encodeURIComponent(query)}`);
-      return Array.isArray(res.data) ? res.data : [res.data];
+      const res = await fetch(`${BASE_URL}/orders/search?q=${encodeURIComponent(query)}`, {
+        method: 'GET',
+        headers: defaultHeaders,
+        credentials: 'include',
+      });
+      const data = await handleResponse(res);
+      return Array.isArray(data.data) ? data.data : [data.data];
     } catch (err) {
-      console.error("Failed to search order:", err);
-      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      console.error("Search order failed:", err);
+      setErrors(prev => [...prev, err.message]);
       return [];
     } finally {
       setIsLoading(false);
@@ -77,11 +97,16 @@ export const OrderProvider = ({ children }) => {
     setIsLoading(true);
     resetErrors();
     try {
-      const res = await api.get(`/orders/${id}`);
-      return Array.isArray(res.data) ? res.data : [res.data];
+      const res = await fetch(`${BASE_URL}/orders/${id}`, {
+        method: 'GET',
+        headers: defaultHeaders,
+        credentials: 'include',
+      });
+      const data = await handleResponse(res);
+      return Array.isArray(data.data) ? data.data : [data.data];
     } catch (err) {
-      console.error("Failed to fetch your order:", err);
-      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      console.error("Fetch your order failed:", err);
+      setErrors(prev => [...prev, err.message]);
       return [];
     } finally {
       setIsLoading(false);
@@ -92,14 +117,20 @@ export const OrderProvider = ({ children }) => {
     setIsLoading(true);
     resetErrors();
     try {
-      const res = await api.post("/orders/add", orderData);
-      if (Array.isArray(res.data) && res.data.length > 0) {
-        setOrders(prev => [...prev, res.data[0]]);
-        console.log(res.data[1]); // e.g., pushUSSD result
+      const res = await fetch(`${BASE_URL}/orders/add`, {
+        method: 'POST',
+        headers: defaultHeaders,
+        credentials: 'include',
+        body: JSON.stringify(orderData),
+      });
+      const data = await handleResponse(res);
+      if (Array.isArray(data.data) && data.data.length > 0) {
+        setOrders(prev => [...prev, data.data[0]]);
+        console.log(data.data[1]); // Possibly USSD log
       }
     } catch (err) {
-      console.error("Failed to add order:", err);
-      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      console.error("Add order failed:", err);
+      setErrors(prev => [...prev, err.message]);
     } finally {
       setIsLoading(false);
     }
@@ -109,13 +140,19 @@ export const OrderProvider = ({ children }) => {
     setIsLoading(true);
     resetErrors();
     try {
-      const res = await api.put(`/orders/edit/${orderData.id}`, orderData);
-      if (res.data?.id) {
-        setOrders(prev => prev.map(o => (o.id === res.data.id ? res.data : o)));
+      const res = await fetch(`${BASE_URL}/orders/edit/${orderData.id}`, {
+        method: 'PUT',
+        headers: defaultHeaders,
+        credentials: 'include',
+        body: JSON.stringify(orderData),
+      });
+      const data = await handleResponse(res);
+      if (data.data?.id) {
+        setOrders(prev => prev.map(o => (o.id === data.data.id ? data.data : o)));
       }
     } catch (err) {
-      console.error("Failed to update order:", err);
-      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      console.error("Update order failed:", err);
+      setErrors(prev => [...prev, err.message]);
     } finally {
       setIsLoading(false);
     }
@@ -125,11 +162,16 @@ export const OrderProvider = ({ children }) => {
     setIsLoading(true);
     resetErrors();
     try {
-      await api.delete(`/orders/${id}`);
+      const res = await fetch(`${BASE_URL}/orders/delete/${id}`, {
+        method: 'DELETE',
+        headers: defaultHeaders,
+        credentials: 'include',
+      });
+      await handleResponse(res);
       setOrders(prev => prev.filter(o => o.id !== id));
     } catch (err) {
-      console.error("Failed to delete order:", err);
-      setErrors(prev => [...prev, err?.message || "Unknown error"]);
+      console.error("Delete order failed:", err);
+      setErrors(prev => [...prev, err.message]);
     } finally {
       setIsLoading(false);
     }
@@ -144,7 +186,7 @@ export const OrderProvider = ({ children }) => {
     orderUpdates,
     fetchAllOrder,
     fetchOrder,
-    refetchOrders,
+    refetchOrders: fetchOrder,
     findOrder,
     findYourOrder,
     addOrder,

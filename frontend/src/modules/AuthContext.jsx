@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "./ToastStore";
+import { Navigate } from "react-router-dom";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -9,28 +10,6 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const fetchUser = async () => {
-    try {
-      const res = await fetch(`${BASE_URL}/auth/me`, {
-        method: "GET",
-        credentials: "include",
-      });
-      if (!res.ok) {
-        toast.error(data.message || "Login failed");
-        return null;
-      }
-      const data = await res.json();
-      const { userId, username, role, exp } = data;
-      localStorage.setItem("username", username);
-      localStorage.setItem("userId", userId);
-      sessionStorage.setItem("role", role);
-      setUser({ userId, username, role, exp });
-    } catch (err) {
-      setUser(null);
-      clearStoredAuth();
-    }
-  };
 
   const login = async (formData) => {
     setLoading(true);
@@ -48,8 +27,12 @@ export const AuthProvider = ({ children }) => {
       }
       toast.success("Login successful");
       await new Promise((res) => setTimeout(res, 100));
-      await fetchUser();
-      return data.user?.role;
+      const { userId, username, role, exp } = data.user;
+      localStorage.setItem("username", username);
+      localStorage.setItem("userId", userId);
+      sessionStorage.setItem("role", role);
+      setUser({ userId, username, role, exp });
+      return data.user?.role && (data.user?.role.toLowerCase() === "admin" ? <Navigate to={"/admin"} replace /> : <Navigate to={"/"} replace />);
     } catch (err) {
       toast.error("Login error");
       return null;
@@ -74,8 +57,7 @@ export const AuthProvider = ({ children }) => {
       }
       toast.success("Signup successful");
       await new Promise((res) => setTimeout(res, 100));
-      await fetchUser();
-      return data.user?.role;
+      return data.user?.role && <Navigate to ={"/login"} replace />;
     } catch (err) {
       toast.error("Signup error");
       return null;
@@ -112,7 +94,6 @@ export const AuthProvider = ({ children }) => {
 
     toast.success("Update successful");
     await new Promise((r) => setTimeout(r, 100));
-    await fetchUser();
     return data.user;
 
   } catch (error) {
@@ -189,6 +170,7 @@ const savePaymentOption = async (preferedPaymentOption, contact) => {
     });
     clearStoredAuth();
     setUser(null);
+    return <Navigate to = '/login' replace />
   };
 
   const clearStoredAuth = () => {
@@ -196,8 +178,30 @@ const savePaymentOption = async (preferedPaymentOption, contact) => {
     localStorage.removeItem("userId");
     sessionStorage.removeItem("role");
   };
-
-  useEffect(() => { fetchUser(); }, []);
+  
+  async function fetchUser() {
+    setLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/auth/user`, {
+        method: "GET",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message || "Failed to fetch user");
+        return null;
+      }
+      const { userId, username, role, exp } = data.user;
+      localStorage.setItem("username", username);
+      localStorage.setItem("userId", userId);
+      sessionStorage.setItem("role", role);
+      setUser({ userId, username, role, exp });
+    } catch (err) {
+      toast.error("Error fetching user");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     if (user?.exp) {
@@ -215,7 +219,7 @@ const savePaymentOption = async (preferedPaymentOption, contact) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, loading, signup, login, logout, fetchUser, changeCredentials, requestRecoveryCode, verifyRecoveryCode, savePaymentOption, resetPassword, savePhoto }}
+      value={{ user, isAuthenticated: !!user, loading, signup, login, logout, changeCredentials, requestRecoveryCode, verifyRecoveryCode, savePaymentOption, resetPassword, savePhoto }}
     >
       {children}
     </AuthContext.Provider>
